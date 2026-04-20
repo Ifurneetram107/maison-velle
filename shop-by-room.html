@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop by Room — Maison Velle</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --vanilla:#F1EADA;--sand:#CEC1A8;--tobacco:#B59E7D;--mahogany:#584738;
+  --moss:#2C3424;--olive:#768064;--gold:#C9A84C;--gold-light:#E8D5A0;
+  --bg-page:#EDE5D8;--bg-surface:#F4EFE6;--bg-dark:#3A2E24;--bg-darker:#2A2018;
+  --text-h:#2C2018;--text-b:#584738;--text-m:#87766A;--text-f:#A8998E;
+  --border:rgba(88,71,56,0.13);--border-m:rgba(88,71,56,0.22);
+}
+html{scroll-behavior:smooth;font-size:118%}
+body{font-family:'Jost',sans-serif;background:var(--bg-page);color:var(--text-b);font-weight:300;line-height:1.7;overflow-x:hidden;cursor:none}
+
+#cd{width:7px;height:7px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cr{width:38px;height:38px;border:1.5px solid var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.45;transition:width .3s,height .3s,opacity .3s}
+#cr.big{width:70px;height:70px;opacity:.2}
+a,button{cursor:none}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.on{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+.ann{background:var(--mahogany);color:var(--vanilla);padding:8px 5vw;display:flex;align-items:center;justify-content:center;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;text-align:center}
+.ann a{color:var(--gold-light);text-decoration:underline;text-underline-offset:3px}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(237,229,216,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 5vw}
+.nav-top{display:flex;align-items:center;justify-content:space-between;padding:1rem 0 .55rem;border-bottom:1px solid var(--border)}
+.nav-logo{text-decoration:none;line-height:1}
+.nav-logo-text{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;letter-spacing:.16em;color:var(--text-h);display:block}
+.nav-logo-text span{color:var(--olive)}
+.nav-logo-sub{font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--text-f);margin-top:2px;display:block;font-weight:300}
+.nav-search{display:flex;align-items:center;border:1px solid var(--border-m);background:var(--bg-surface);overflow:hidden;width:240px;transition:width .3s,border-color .3s}
+.nav-search:focus-within{border-color:var(--tobacco);width:280px}
+.nav-search input{border:none;outline:none;background:transparent;font-family:'Jost',sans-serif;font-size:12px;font-weight:300;color:var(--text-h);padding:8px 12px;width:100%}
+.nav-search input::placeholder{color:var(--text-f)}
+.nav-search button{background:none;border:none;padding:0 11px;font-size:14px;color:var(--text-m)}
+.nav-right{display:flex;gap:1.2rem;align-items:center}
+.nav-icon{font-size:16px;color:var(--text-m);text-decoration:none;transition:color .2s,transform .2s}
+.nav-icon:hover{color:var(--text-h);transform:scale(1.15)}
+
+.nav-bot{display:flex;align-items:center;justify-content:center;padding:0;position:relative}
+.nav-links{display:flex;gap:0;list-style:none}
+.nav-links>li{position:relative}
+.nav-links>li>a{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-m);text-decoration:none;font-weight:400;transition:color .2s;padding:.6rem 1.2rem;display:block;position:relative;white-space:nowrap}
+.nav-links>li>a::after{content:'';position:absolute;bottom:0;left:1.2rem;right:1.2rem;height:1px;background:var(--mahogany);transform:scaleX(0);transform-origin:left;transition:transform .28s}
+.nav-links>li>a:hover,.nav-links>li>a.active{color:var(--text-h)}
+.nav-links>li>a:hover::after,.nav-links>li>a.active::after{transform:scaleX(1)}
+.nav-links>li>a.has-mega::after{display:none}
+
+.mega{position:absolute;top:100%;left:50%;transform:translateX(-50%);background:var(--bg-surface);border:1px solid var(--border);border-top:2px solid var(--mahogany);min-width:680px;padding:2.5rem;display:grid;gap:2.5rem;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s,transform .25s;transform:translateX(-50%) translateY(8px);z-index:200;box-shadow:0 8px 32px rgba(88,71,56,.12)}
+.mega.cols-4{grid-template-columns:1.1fr 1.1fr 1.1fr 200px}
+.nav-links>li:hover .mega,.mega:hover{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.mega-col h4{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--text-h);font-weight:500;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid var(--border)}
+.mega-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.mega-col ul li a{font-size:12.5px;color:var(--text-m);text-decoration:none;font-weight:300;transition:color .2s,padding-left .2s;display:block;padding:2px 0}
+.mega-col ul li a:hover{color:var(--mahogany);padding-left:5px}
+.mega-all{margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--border)}
+.mega-all a{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mahogany);text-decoration:none;font-weight:400;transition:letter-spacing .2s}
+.mega-all a:hover{letter-spacing:.14em}
+.mega-img{position:relative;overflow:hidden}
+.mega-img img{width:100%;height:160px;object-fit:cover;display:block;transition:transform .5s}
+.mega-img:hover img{transform:scale(1.04)}
+.mega-img-label{margin-top:.8rem}
+.mega-img-label p{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-f);margin-bottom:3px}
+.mega-img-label a{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;color:var(--text-h);text-decoration:none;transition:color .2s}
+.mega-img-label a:hover{color:var(--olive)}
+
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none}
+.hamburger span{width:22px;height:1px;background:var(--text-h);display:block;transition:transform .3s,opacity .3s}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.mob-menu{position:fixed;inset:0;z-index:99;background:var(--bg-surface);padding:7rem 7vw 4rem;transform:translateX(-100%);transition:transform .45s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;gap:2rem;overflow-y:auto}
+.mob-menu.open{transform:none}
+.mob-menu a{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--text-h);text-decoration:none;transition:color .2s}
+.mob-menu a:hover{color:var(--olive)}
+.mob-menu .mob-sub{display:flex;flex-direction:column;gap:.6rem;padding-left:1.5rem;margin-top:.3rem}
+.mob-menu .mob-sub a{font-size:15px;color:var(--text-m)}
+
+@media(max-width:960px){.mega{min-width:90vw;left:5vw;transform:none}.mega:hover,.nav-links>li:hover .mega{transform:translateY(0)}}
+@media(max-width:768px){.nav-bot{display:none}.hamburger{display:flex}}
+
+/* BREADCRUMB */
+.breadcrumb{padding:1.4rem 5vw;display:flex;align-items:center;gap:.6rem;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-f)}
+.breadcrumb a{color:var(--text-f);text-decoration:none;transition:color .2s}
+.breadcrumb a:hover{color:var(--text-h)}
+.breadcrumb span{color:var(--border-m)}
+
+/* PAGE HERO */
+.page-hero{padding:3rem 5vw 4rem;border-bottom:1px solid var(--border)}
+.page-hero-inner{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem}
+.page-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,58px);font-weight:300;line-height:1.1;color:var(--text-h)}
+.page-hero h1 em{font-style:italic;color:var(--olive)}
+.page-hero p{font-size:13.5px;color:var(--text-m);line-height:1.85;max-width:420px;font-weight:300;margin-top:.8rem}
+
+/* ROOM SECTIONS */
+.rooms-wrap{padding:0 5vw 6rem}
+
+.room-section{padding:4rem 0 2rem;border-bottom:1px solid var(--border)}
+.room-section:last-child{border-bottom:none}
+
+.room-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.room-header-left{}
+.room-eyebrow{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.7rem;margin-bottom:.8rem}
+.room-eyebrow::before{content:'';width:22px;height:1px;background:var(--gold);display:block}
+.room-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,3.5vw,48px);font-weight:300;color:var(--text-h);line-height:1.1}
+.room-title em{font-style:italic;color:var(--olive)}
+.room-desc{font-size:13px;color:var(--text-m);line-height:1.85;max-width:480px;font-weight:300;margin-top:.6rem}
+.room-view-all{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mahogany);text-decoration:none;border-bottom:1px solid var(--border-m);padding-bottom:3px;transition:border-color .2s,letter-spacing .2s;white-space:nowrap;font-weight:400}
+.room-view-all:hover{border-color:var(--mahogany);letter-spacing:.2em}
+
+/* PRODUCT GRID */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+
+.prod-card{position:relative;overflow:hidden;cursor:none;background:var(--bg-surface);transform-style:preserve-3d;will-change:transform}
+.prod-img{width:100%;aspect-ratio:4/5;background-size:cover;background-position:center;position:relative;transition:transform .8s cubic-bezier(.16,1,.3,1)}
+.prod-card:hover .prod-img{transform:scale(1.05)}
+.prod-img-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,17,8,.6) 0%,transparent 55%);transition:opacity .4s}
+.prod-card:hover .prod-img-ov{opacity:.9}
+.prod-label{position:absolute;bottom:0;left:0;right:0;padding:1.6rem 1.5rem;z-index:2;transform:translateY(6px);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.prod-card:hover .prod-label{transform:translateY(0)}
+.prod-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.4rem;opacity:0;transform:translateY(8px);transition:opacity .3s .05s,transform .3s .05s}
+.prod-card:hover .prod-tag{opacity:1;transform:none}
+.prod-name{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2vw,22px);font-weight:300;color:var(--vanilla);line-height:1.2;margin-bottom:.4rem}
+.prod-meta{display:flex;align-items:center;justify-content:space-between}
+.prod-price{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(241,234,218,.65)}
+.prod-arrow{width:32px;height:32px;border:1px solid rgba(241,234,218,.3);display:flex;align-items:center;justify-content:center;color:var(--vanilla);font-size:14px;opacity:0;transform:translateX(-6px);transition:opacity .3s .1s,transform .3s .1s}
+.prod-card:hover .prod-arrow{opacity:1;transform:none}
+.prod-info{padding:1.2rem 1.3rem 1.6rem}
+.prod-info-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;color:var(--text-h);margin-bottom:3px}
+.prod-info-sub{font-size:12px;color:var(--text-m);font-weight:300;margin-bottom:.7rem}
+.prod-info-foot{display:flex;align-items:center;justify-content:space-between}
+.prod-info-price{font-size:13px;color:var(--text-h);font-weight:400}
+.prod-btn{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mahogany);text-decoration:none;border-bottom:1px solid var(--border-m);padding-bottom:2px;transition:border-color .2s;font-weight:400}
+.prod-btn:hover{border-color:var(--mahogany)}
+.prod-badge{position:absolute;top:.9rem;right:.9rem;z-index:3;background:var(--gold);color:var(--mahogany);font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:4px 10px;font-family:'Jost',sans-serif;font-weight:500}
+.prod-badge.new{background:var(--gold)}
+.prod-badge.sale{background:var(--mahogany);color:var(--vanilla)}
+
+/* MID BANNER */
+.room-banner{position:relative;overflow:hidden;height:280px;display:flex;align-items:center;background-size:cover;background-position:center;margin:4rem 0}
+.room-banner-ov{position:absolute;inset:0;background:rgba(30,18,8,.45)}
+.room-banner-content{position:relative;z-index:1;padding:0 5vw;max-width:520px}
+.room-banner-lbl{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.8rem;display:flex;align-items:center;gap:.8rem}
+.room-banner-lbl::before{content:'';width:22px;height:1px;background:var(--gold);display:block}
+.room-banner h3{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,40px);font-weight:300;color:var(--vanilla);line-height:1.2;margin-bottom:.8rem;font-style:italic}
+.room-banner p{font-size:12.5px;color:rgba(241,234,218,.75);margin-bottom:1.5rem;font-weight:300}
+.btn-ol-sm{background:transparent;color:var(--vanilla);padding:11px 26px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;font-family:'Jost',sans-serif;font-weight:400;border:1px solid rgba(241,234,218,.45);display:inline-block;transition:background .3s,border-color .3s}
+.btn-ol-sm:hover{background:rgba(241,234,218,.1);border-color:var(--vanilla)}
+
+/* FOOTER */
+.ft-main{background:var(--bg-dark);padding:4rem 5vw 0;border-top:1px solid rgba(241,234,218,.08)}
+.ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:3.5rem;padding-bottom:3.5rem;border-bottom:1px solid rgba(241,234,218,.1)}
+.ft-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;letter-spacing:.14em;color:var(--vanilla);text-decoration:none;display:block;margin-bottom:4px}
+.ft-logo span{color:var(--gold)}
+.ft-tag{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-f);margin-bottom:1.3rem;display:block}
+.ft-brand p{font-size:13px;color:var(--text-f);line-height:1.85;font-weight:300;margin-bottom:1.4rem;max-width:240px}
+.socials{display:flex;gap:.6rem}
+.soc{width:32px;height:32px;border:1px solid rgba(241,234,218,.15);display:flex;align-items:center;justify-content:center;color:var(--text-f);text-decoration:none;transition:border-color .2s,color .2s,transform .2s}
+.soc:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.ft-col h4{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--vanilla);margin-bottom:1.3rem;font-weight:400}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.ft-col ul a{font-size:13px;color:var(--text-f);text-decoration:none;font-weight:300;transition:color .2s,padding-left .2s}
+.ft-col ul a:hover{color:var(--vanilla);padding-left:4px}
+.ft-addr{font-size:13px;color:var(--text-f);line-height:1.85;font-weight:300}
+.ft-addr strong{color:var(--vanilla);font-weight:400;display:block;margin:1rem 0 .3rem}
+.ft-addr strong:first-child{margin-top:0}
+.ft-bot{background:var(--bg-darker);padding:1.3rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.ft-copy{font-size:11px;color:var(--text-f)}
+.ft-legal{display:flex;gap:2rem;list-style:none}
+.ft-legal a{font-size:11px;color:var(--text-f);text-decoration:none;transition:color .2s}
+.ft-legal a:hover{color:var(--vanilla)}
+
+@media(max-width:960px){.prod-grid{grid-template-columns:repeat(2,1fr)}.ft-grid{grid-template-columns:1fr 1fr;gap:2rem}}
+@media(max-width:640px){
+  .prod-grid{grid-template-columns:1fr}
+  .nav-bot{display:none}.hamburger{display:flex}
+  .nav-search{width:140px}.ft-grid{grid-template-columns:1fr}
+  .page-hero-inner{flex-direction:column;align-items:flex-start}
+  .room-header{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<div id="cd"></div><div id="cr"></div>
+
+<div class="ann">
+  <span>✦ New Carrara Collection now available &nbsp;·&nbsp; <a href="shop-by-collection.html">Discover Now</a></span>
+</div>
+
+<nav>
+  <div class="nav-top">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text">Maison <span>Velle</span></span>
+      <span class="nav-logo-sub">Luxury Bath &amp; Marble Décor</span>
+    </a>
+    <div class="nav-search"><input type="text" placeholder="Search rooms…"><button>&#9906;</button></div>
+    <div class="nav-right">
+      <a href="#" class="nav-icon">&#9825;</a>
+      <a href="#" class="nav-icon">&#9675;</a>
+      <button class="hamburger" id="hbg"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="nav-bot">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li>
+        <a href="shop-by-collection.html" class="has-mega">Shop by Collection</a>
+        <div class="mega cols-4">
+          <div class="mega-col"><h4>New Arrivals</h4><ul>
+            <li><a href="shop-by-collection.html">Nero Marquina</a></li>
+            <li><a href="shop-by-collection.html">Calacatta</a></li>
+            <li><a href="shop-by-collection.html">Vessel Basins</a></li>
+          </ul></div>
+          <div class="mega-col"><h4>All Collections</h4><ul>
+            <li><a href="shop-by-collection.html">Carrara</a></li>
+            <li><a href="shop-by-collection.html">Travertine</a></li>
+            <li><a href="shop-by-collection.html">Emperador</a></li>
+            <li><a href="shop-by-collection.html">Unlacquered Brass</a></li>
+          </ul><div class="mega-all"><a href="shop-by-collection.html">View All →</a></div></div>
+          <div class="mega-col"><h4>By Marble Type</h4><ul>
+            <li><a href="shop-by-collection.html">White Marble</a></li>
+            <li><a href="shop-by-collection.html">Dark Marble</a></li>
+            <li><a href="shop-by-collection.html">Warm Stone</a></li>
+            <li><a href="shop-by-collection.html">Travertine</a></li>
+          </ul></div>
+          <div class="mega-col mega-img">
+            <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80&fit=crop" alt="Carrara">
+            <div class="mega-img-label"><p>Featured</p><a href="shop-by-collection.html">Carrara Collection →</a></div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="shop-by-room.html" class="has-mega active">Shop by Room</a>
+        <div class="mega cols-4">
+          <div class="mega-col"><h4>Bathroom</h4><ul>
+            <li><a href="#bathroom">Master Bathroom</a></li>
+            <li><a href="#bathroom">Guest Bathroom</a></li>
+            <li><a href="#bathroom">Powder Room</a></li>
+          </ul></div>
+          <div class="mega-col"><h4>Kitchen</h4><ul>
+            <li><a href="#kitchen">Kitchen Countertops</a></li>
+            <li><a href="#kitchen">Kitchen Accessories</a></li>
+            <li><a href="#kitchen">Cutting Boards</a></li>
+          </ul></div>
+          <div class="mega-col"><h4>Living Room</h4><ul>
+            <li><a href="#living-room">Decorative Trays</a></li>
+            <li><a href="#living-room">Candle Holders</a></li>
+            <li><a href="#living-room">Marble Objects</a></li>
+          </ul></div>
+          <div class="mega-col mega-img">
+            <img src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=400&q=80&fit=crop" alt="Room">
+            <div class="mega-img-label"><p>Inspiration</p><a href="#">Shop the Look →</a></div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="product-detail-page.html" class="has-mega">Shop by Category</a>
+        <div class="mega cols-4">
+          <div class="mega-col"><h4>Bathroom Vanity</h4><ul>
+            <li><a href="product-detail-page.html">Single Vanities</a></li>
+            <li><a href="product-detail-page.html">Double Vanities</a></li>
+            <li><a href="product-detail-page.html">Floating Vanities</a></li>
+          </ul><div class="mega-all"><a href="product-detail-page.html">All Vanities →</a></div></div>
+          <div class="mega-col"><h4>Vanity Countertops</h4><ul>
+            <li><a href="product-detail-page.html">Carrara Marble Tops</a></li>
+            <li><a href="product-detail-page.html">Calacatta Marble Tops</a></li>
+            <li><a href="product-detail-page.html">Travertine Tops</a></li>
+          </ul><div class="mega-all"><a href="product-detail-page.html">All Countertops →</a></div></div>
+          <div class="mega-col"><h4>Accessories</h4><ul>
+            <li><a href="product-detail-page.html">Trays</a></li>
+            <li><a href="product-detail-page.html">Candle Holders</a></li>
+            <li><a href="product-detail-page.html">Cutting Boards</a></li>
+          </ul><div class="mega-all"><a href="product-detail-page.html">All Accessories →</a></div></div>
+          <div class="mega-col mega-img">
+            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=80&fit=crop" alt="Accessories">
+            <div class="mega-img-label"><p>New In</p><a href="product-detail-page.html">Travertine Accessories →</a></div>
+          </div>
+        </div>
+      </li>
+      <li><a href="index.html#s-newin">New In</a></li>
+      <li><a href="contact-page.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="mob-menu" id="mobMenu">
+  <a href="index.html">Home</a>
+  <a href="shop-by-collection.html">Shop by Collection</a>
+  <a href="shop-by-room.html">Shop by Room</a>
+  <div class="mob-sub">
+    <a href="#bathroom">Bathroom</a>
+    <a href="#kitchen">Kitchen</a>
+    <a href="#living-room">Living Room</a>
+  </div>
+  <a href="product-detail-page.html">Shop by Category</a>
+  <a href="contact-page.html">Contact</a>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">Home</a><span>/</span>
+  <span style="color:var(--text-b)">Shop by Room</span>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <h1>Shop by <em>Room</em></h1>
+      <p>Stone and marble pieces curated for every space in your home — from bathroom sanctuaries to living rooms that hold a quiet kind of beauty.</p>
+    </div>
+  </div>
+</div>
+
+<div class="rooms-wrap">
+
+  <!-- ── BATHROOM ── -->
+  <section class="room-section rv" id="bathroom">
+    <div class="room-header">
+      <div class="room-header-left">
+        <div class="room-eyebrow">Most Popular</div>
+        <h2 class="room-title">Bath<em>room</em></h2>
+        <p class="room-desc">Marble vanities, vessel basins, soap dishes, and trays. Everything to turn your bathroom into a sanctuary.</p>
+      </div>
+      <a href="#" class="room-view-all">View All Bathroom →</a>
+    </div>
+    <div class="prod-grid">
+
+      <div class="prod-card rv d1">
+        <div class="prod-badge new">New</div>
+        <div class="prod-img" style="background-image:url('https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=700&q=80&fit=crop')">
+          <div class="prod-img-ov"></div>
+          <div class="prod-label">
+            <p class="prod-tag">Carrara · Vanity</p>
+            <h3 class="prod-name">Carrara Marble Vanity</h3>
+            <div class="prod-meta"><span class="prod-price">From $890</span><div class="prod-arrow">→</div></div>
+          </div>
+        </div>
+        <div class="prod-info">
+          <p class="prod-info-name">Single Vanity — Carrara</p>
+          <p class="prod-info-sub">60cm · Solid white oak frame</p>
+          <div class="prod-info-foot"><span class="prod-info-price">From $890</span><a href="product-detail-page.html" class="prod-btn">Shop Now</a></div>
+        </div>
+      </div>
+
+      <div class="prod-card rv d2">
+        <div class="prod-img" style="background-image:url('https://images.unsplash.com/photo-1620626011761-996317702149?w=700&q=80&fit=crop')">
+          <div class="prod-img-ov"></div>
+          <div class="prod-label">
+            <p class="prod-tag">Calacatta · Basin</p>
+            <h3 class="prod-name">Vessel Basin</h3>
+            <div class="prod-meta"><span class="prod-price">From $480</span><div class="prod-arrow">→</div></div>
+          </div>
+        </div>
+        <div class="prod-info">
+          <p class="prod-info-name">Vessel Basin — Calacatta</p>
+          <p class="prod-info-sub">Above-counter · Hand-carved</p>
+          <div class="prod-info-foot"><span class="prod-info-price">From $480</span><a href="product-detail-page.html" class="prod-btn">Shop Now</a></div>
+        </div>
+      </div>
+
+      <div class="prod-card rv d3">
+        <div class="prod-img" style="background-image:url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=700&q=80&fit=crop')">
+          <div class="prod-img-ov"></div>
+          <div class="prod-label">
+            <p class="prod-tag">Travertine · Accessories</p>
+            <h3 class="prod-name">Soap Dish & Tray Set</h3>
+            <div class="prod-meta"><span class="prod-price">From $120</span><div class="prod-arrow">→</div></div>
+          </div>
+        </div>
+        <div class="prod-info">
+          <p class="prod-info-name">Soap Dish & Tray Set — Travertine</p>
+          <p class="prod-info-sub">Set of 2 · Natural travertine</p>
+          <div class="prod-info-foot"><span class="prod-info-price">From $120</span><a href="product-detail-page.html" class="prod-btn">Shop Now</a></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── BANNER ── -->
+  <div class="room-banner rv" style="background-image:url('https://images.unsplash.com/photo-1600210491892-03d54730d386?w=1800&q=80&fit=crop')">
+    <div class="room-banner-ov"></div>
+    <div class="room-banner-content">
+      <div class="room-banner-lbl">Free Design Consultation</div>
+      <h3>Let us help you design<br>your perfect space</h3>
+      <p>Share a few details and our team will guide you to the right pieces for your home.</p>
+      <a href="contact-page.html" class="btn-ol-sm">Talk to Our Team</a>
+    </div>
+  </div>
+
+  <!-- ── KITCHEN ── -->
+  <section class="room-section rv" id="kitchen">
+    <div class="room-header">
+      <div class="room-header-left">
+        <div class="room-eyebrow">Stone Surfaces</div>
+        <h2 class="room-title"><em>Kitchen</em></h2>
+        <p class="room-desc">Marble cutting boards, travertine trivets, and stone accessories for kitchens that are as beautiful as they are functional.</p>
+      </div>
+      <a href="#" class="room-view-all">View All Kitchen →</a>
+    </div>
+    <div class="prod-grid">
+
+      <div class="prod-card rv d1">
+        <div class="prod-badge new">New</div>
+        <div class="prod-img" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=80&fit=crop')">
+          <div class="prod-img-ov"></div>
+          <div class="prod-label">
+            <p class="prod-tag">Carrara · Cutting Board</p>
+            <h3 class="prod-name">Marble Cutting Board</h3>
+            <div class="prod-meta"><span class="prod-price">From $195</span><div class="prod-arrow">→</div></div>
+          </div>
+        </div>
+        <div class="prod-info">
+          <p class="prod-info-name">Cutting Board — Carrara</p>
+          <p class="prod-info-sub">40×25cm · With brass handles</p>
+          <div class="prod-info-foot"><span class="prod-info-price">From $195</span><a href="product-detail-page.html" class="prod-btn">Shop Now</a></div>
+        </div>
+      </div>
+
+      <div class="prod-card rv d2">
+        <div class="prod-img" style="background-image:url('https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=700&q=80&fit=crop')">
+          <div class="prod-img-ov"></div>
+          <div class="prod-label">
+            <p class="prod-tag">Travertine · Trivet</p>
+            <h3 class="prod-name">Stone Trivet Set</h3>
+            <div class="prod-meta"><span class="prod-price">From $95</span><div class="prod-arrow">→</div></div>
+          </div>
+        </div>
+        <div class="prod-info">
+          <p class="prod-info-name">Trivet Set — Travertine</p>
+          <p class="prod-info-sub">Set of 3 · Round & square</p>
+          <div class="prod-info-foot"><span class="prod-info-price">From $95</span><a href="product-detail-page.html" class="prod-btn">Shop Now</a></div>
+        </div>
+      </div>
+
+      <div class="prod-card rv d3">
+        <div class="prod-img" style="background-image:url('https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=700&q=80&fit=crop')">
+          <div class="prod-img-ov"></div>
+          <div class="prod-label">
+            <p class="prod-tag">Nero Marquina · Canister</p>
+            <h3 class="prod-name">Kitchen Canister</h3>
+            <div class="prod-meta"><span class="prod-price">From $145</span><div class="prod-arrow">→</div></div>
+          </div>
+        </div>
+        <div class="prod-info">
+          <p class="prod-info-name">Canister — Nero Marquina</p>
+          <p class="prod-info-sub">With unlacquered brass lid</p>
+          <div class="prod-info-foot"><span class="prod-info-price">From $145</span><a href="product-detail-page.html" class="prod-btn">Shop Now</a></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── LIVING ROOM ── -->
+  <section class="room-section rv" id="living-room">
+    <div class="room-header">
+      <div class="room-header-left">
+        <div class="room-eyebrow">Décor Objects</div>
+        <h2 class="room-title">Living <em>Room</em></h2>
+        <p class="room-desc">Decorative trays, candle holders, and marble objects that bring quiet luxury to your living space. The finishing touch every room deserves.</p>
+      </div>
+      <a href="#" class="room-view-all">View All Living Room →</a>
+    </div>
+    <div class="prod-grid">
+
+      <div class="prod-card rv d1">
+        <div class="prod-badge new">New</div>
+        <div class="prod-img" style="background-image:url('https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=700&q=80&fit=crop')">
+          <div class="prod-img-ov"></div>
+          <div class="prod-label">
+            <p class="prod-tag">Travertine · Tray</p>
+            <h3 class="prod-name">Decorative Tray</h3>
+            <div class="prod-meta"><span class="prod-price">From $80</span><div class="prod-arrow">→</div></div>
+          </div>
+        </div>
+        <div class="prod-info">
+          <p class="prod-info-name">Decorative Tray — Travertine</p>
+          <p class="prod-info-sub">30×22cm · With brass handles</p>
+          <div class="prod-info-foot"><span class="prod-info-price">From $80</span><a href="product-detail-page.html" class="prod-btn">Shop Now</a></div>
+        </div>
+      </div>
+
+      <div class="prod-card rv d2">
+        <div class="prod-img" style="background-image:url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=700&q=80&fit=crop')">
+          <div class="prod-img-ov"></div>
+          <div class="prod-label">
+            <p class="prod-tag">Carrara · Candle Holder</p>
+            <h3 class="prod-name">Candle Holder Set</h3>
+            <div class="prod-meta"><span class="prod-price">From $110</span><div class="prod-arrow">→</div></div>
+          </div>
+        </div>
+        <div class="prod-info">
+          <p class="prod-info-name">Candle Holder Set — Carrara</p>
+          <p class="prod-info-sub">Set of 2 · Tall & short</p>
+          <div class="prod-info-foot"><span class="prod-info-price">From $110</span><a href="product-detail-page.html" class="prod-btn">Shop Now</a></div>
+        </div>
+      </div>
+
+      <div class="prod-card rv d3">
+        <div class="prod-img" style="background-image:url('https://images.unsplash.com/photo-1600210491892-03d54730d386?w=700&q=80&fit=crop')">
+          <div class="prod-img-ov"></div>
+          <div class="prod-label">
+            <p class="prod-tag">Emperador · Object</p>
+            <h3 class="prod-name">Marble Object</h3>
+            <div class="prod-meta"><span class="prod-price">From $135</span><div class="prod-arrow">→</div></div>
+          </div>
+        </div>
+        <div class="prod-info">
+          <p class="prod-info-name">Decorative Object — Emperador</p>
+          <p class="prod-info-sub">Sculptural form · Limited edition</p>
+          <div class="prod-info-foot"><span class="prod-info-price">From $135</span><a href="product-detail-page.html" class="prod-btn">Shop Now</a></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /rooms-wrap -->
+
+<div class="ft-main">
+  <div class="ft-grid">
+    <div class="ft-brand">
+      <a href="index.html" class="ft-logo">Maison <span>Velle</span></a>
+      <span class="ft-tag">Luxury Bath &amp; Marble Décor</span>
+      <p>Crafting marble vanities and stone décor for those who believe every space deserves beauty.</p>
+      <div class="socials">
+        <a href="#" class="soc" title="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" class="soc" title="Pinterest"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.236 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.428 1.808-2.428.853 0 1.267.641 1.267 1.408 0 .858-.546 2.141-.828 3.329-.236.995.499 1.806 1.476 1.806 1.772 0 3.137-1.867 3.137-4.559 0-2.386-1.715-4.054-4.163-4.054-2.838 0-4.502 2.129-4.502 4.33 0 .858.33 1.777.741 2.28a.3.3 0 0 1 .069.285c-.076.313-.243.995-.276 1.134-.044.183-.146.222-.337.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.967-.527-2.292-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg></a>
+        <a href="#" class="soc" title="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+      </div>
+    </div>
+    <div class="ft-col"><h4>By Room</h4><ul>
+      <li><a href="#bathroom">Bathroom</a></li>
+      <li><a href="#kitchen">Kitchen</a></li>
+      <li><a href="#living-room">Living Room</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Company</h4><ul>
+      <li><a href="#">Our Story</a></li><li><a href="#">Craftsmanship</a></li>
+      <li><a href="#">Showroom</a></li><li><a href="#">Press</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Visit Us</h4>
+      <div class="ft-addr">
+        <strong>Ho Chi Minh City</strong>12 Nguyễn Huệ, Quận 1<br>Ho Chi Minh City, Vietnam
+        <strong>Hours</strong>Mon – Sat: 9am – 6pm
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ft-bot">
+  <p class="ft-copy">© 2025 Maison Velle. All rights reserved.</p>
+  <ul class="ft-legal">
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Terms of Service</a></li>
+    <li><a href="#">Shipping &amp; Returns</a></li>
+  </ul>
+</div>
+
+<script>
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.prod-card,.soc').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cr.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cr.classList.remove('big'));
+});
+
+const hbg=document.getElementById('hbg'),mob=document.getElementById('mobMenu');
+hbg.addEventListener('click',()=>{hbg.classList.toggle('open');mob.classList.toggle('open');});
+
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('on');io.unobserve(x.target);}});},{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+document.querySelectorAll('.prod-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const dx=(e.clientX-r.left-r.width/2)/(r.width/2);
+    const dy=(e.clientY-r.top-r.height/2)/(r.height/2);
+    card.style.transform=`perspective(900px) rotateY(${dx*3.5}deg) rotateX(${-dy*3.5}deg)`;
+    card.style.transition='transform .1s ease';
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform='perspective(900px) rotateY(0deg) rotateX(0deg)';
+    card.style.transition='transform .6s cubic-bezier(.16,1,.3,1)';
+  });
+});
+</script>
+</body>
+</html>
