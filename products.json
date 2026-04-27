@@ -1,0 +1,468 @@
+{
+  "products": [
+    {
+      "id": "carrara-floating-vanity",
+      "name": "Carrara Floating Vanity",
+      "collection": "Carrara",
+      "category": "vanity",
+      "tag": "Carrara · Vanity",
+      "badge": "Bestseller",
+      "description": "A celebration of Italian Carrara marble in its purest form — cool white stone with soft grey veining, paired with solid oak cabinetry and unlacquered brass hardware. Wall-mounted for a floating silhouette that transforms any bathroom into a sanctuary.",
+      "images": [
+        "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=80&fit=crop"
+      ],
+      "sizes": [
+        { "label": "36\" Single", "size": "36\"", "price": 2850 },
+        { "label": "48\" Single", "size": "48\"", "price": 3200 },
+        { "label": "60\" Single", "size": "60\"", "price": 3650 },
+        { "label": "60\" Double", "size": "60\" D", "price": 4200 },
+        { "label": "72\" Double", "size": "72\"", "price": 4650 },
+        { "label": "84\" Double", "size": "84\"", "price": 5200 }
+      ],
+      "materials": ["Carrara", "Calacatta", "Travertine", "Nero"],
+      "materialLabels": {
+        "Carrara": "Italian Carrara Marble",
+        "Calacatta": "Calacatta Gold Marble",
+        "Travertine": "Warm Travertine",
+        "Nero": "Nero Marquina"
+      },
+      "swatches": [
+        { "color": "Natural White Oak", "hex": "#D4C4A8" },
+        { "color": "Smoked Oak", "hex": "#7A6552" },
+        { "color": "Matte White", "hex": "#F0EDE8", "border": true },
+        { "color": "Sage Green", "hex": "#768064" },
+        { "color": "Midnight Navy", "hex": "#2C3448" }
+      ],
+      "specs": {
+        "Height": "32\" (wall-mounted)",
+        "Depth": "21\"",
+        "Stone": "Italian Carrara Marble",
+        "Cabinet": "Solid Oak",
+        "Hardware": "Unlacquered Brass",
+        "Finish": "Honed"
+      },
+      "shipping": [
+        "White glove delivery included on orders over $1,500",
+        "2-person delivery team handles placement and installation",
+        "Lead time: 6–8 weeks from order confirmation",
+        "Delivery available throughout Vietnam — HCMC & Hanoi showrooms",
+        "International shipping available — contact us for a quote"
+      ],
+      "care": [
+        "Wipe marble with a damp cloth — never use acidic cleaners",
+        "Seal marble annually with a pH-neutral stone sealer",
+        "Clean wood cabinet with a dry or slightly damp cloth",
+        "Brass hardware will patina naturally — polish only if desired",
+        "Avoid standing water on stone surfaces"
+      ],
+      "rooms": ["bathroom"]
+    },
+    {
+      "id": "nero-marquina-vanity",
+      "name": "Nero Marquina Vanity",
+      "collection": "Nero Marquina",
+      "category": "vanity",
+      "tag": "Nero · Vanity",
+      "badge": "New",
+      "description": "Bold, dramatic, and undeniably luxurious. Nero Marquina's deep black stone with bright white veining creates a striking contrast with smoked oak cabinetry and matte black hardware — for the bathroom that makes a statement.",
+      "images": [
+        "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=80&fit=crop"
+      ],
+      "sizes": [
+        { "label": "36\" Single", "size": "36\"", "price": 3100 },
+        { "label": "48\" Single", "size": "48\"", "price": 3500 },
+        { "label": "60\" Single", "size": "60\"", "price": 3950 },
+        { "label": "60\" Double", "size": "60\" D", "price": 4500 },
+        { "label": "72\" Double", "size": "72\"", "price": 5000 },
+        { "label": "84\" Double", "size": "84\"", "price": 5600 }
+      ],
+      "materials": ["Nero", "Calacatta", "Carrara", "Travertine"],
+      "materialLabels": {
+        "Nero": "Nero Marquina",
+        "Calacatta": "Calacatta Gold Marble",
+        "Carrara": "Italian Carrara Marble",
+        "Travertine": "Warm Travertine"
+      },
+      "swatches": [
+        { "color": "Smoked Oak", "hex": "#7A6552" },
+        { "color": "Natural White Oak", "hex": "#D4C4A8" },
+        { "color": "Matte Black", "hex": "#2A2018" },
+        { "color": "Sage Green", "hex": "#768064" },
+        { "color": "Matte White", "hex": "#F0EDE8", "border": true }
+      ],
+      "specs": {
+        "Height": "32\" (wall-mounted)",
+        "Depth": "21\"",
+        "Stone": "Nero Marquina",
+        "Cabinet": "Solid Smoked Oak",
+        "Hardware": "Matte Black",
+        "Finish": "Polished"
+      },
+      "shipping": [
+        "White glove delivery included on orders over $1,500",
+        "2-person delivery team handles placement and installation",
+        "Lead time: 6–8 weeks from order confirmation",
+        "Delivery available throughout Vietnam — HCMC & Hanoi showrooms",
+        "International shipping available — contact us for a quote"
+      ],
+      "care": [
+        "Wipe marble with a damp cloth — never use acidic cleaners",
+        "Seal marble annually with a pH-neutral stone sealer",
+        "Clean wood cabinet with a dry or slightly damp cloth",
+        "Avoid standing water on stone surfaces"
+      ],
+      "rooms": ["bathroom"]
+    },
+    {
+      "id": "calacatta-vanity",
+      "name": "Calacatta Gold Vanity",
+      "collection": "Calacatta",
+      "category": "vanity",
+      "tag": "Calacatta · Vanity",
+      "badge": null,
+      "description": "The most coveted of all marbles — Calacatta Gold with its warm ivory background and bold gold veining. Paired with natural white oak and brushed gold hardware for a bathroom that radiates warmth and opulence.",
+      "images": [
+        "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=80&fit=crop"
+      ],
+      "sizes": [
+        { "label": "36\" Single", "size": "36\"", "price": 3200 },
+        { "label": "48\" Single", "size": "48\"", "price": 3600 },
+        { "label": "60\" Single", "size": "60\"", "price": 4100 },
+        { "label": "60\" Double", "size": "60\" D", "price": 4700 },
+        { "label": "72\" Double", "size": "72\"", "price": 5200 },
+        { "label": "84\" Double", "size": "84\"", "price": 5800 }
+      ],
+      "materials": ["Calacatta", "Carrara", "Travertine", "Nero"],
+      "materialLabels": {
+        "Calacatta": "Calacatta Gold Marble",
+        "Carrara": "Italian Carrara Marble",
+        "Travertine": "Warm Travertine",
+        "Nero": "Nero Marquina"
+      },
+      "swatches": [
+        { "color": "Natural White Oak", "hex": "#D4C4A8" },
+        { "color": "Brushed Gold", "hex": "#C9A84C" },
+        { "color": "Matte White", "hex": "#F0EDE8", "border": true },
+        { "color": "Sage Green", "hex": "#768064" },
+        { "color": "Smoked Oak", "hex": "#7A6552" }
+      ],
+      "specs": {
+        "Height": "32\" (wall-mounted)",
+        "Depth": "21\"",
+        "Stone": "Calacatta Gold Marble",
+        "Cabinet": "Solid White Oak",
+        "Hardware": "Brushed Gold",
+        "Finish": "Honed"
+      },
+      "shipping": [
+        "White glove delivery included on orders over $1,500",
+        "2-person delivery team handles placement and installation",
+        "Lead time: 6–8 weeks from order confirmation",
+        "Delivery available throughout Vietnam — HCMC & Hanoi showrooms",
+        "International shipping available — contact us for a quote"
+      ],
+      "care": [
+        "Wipe marble with a damp cloth — never use acidic cleaners",
+        "Seal marble annually with a pH-neutral stone sealer",
+        "Clean wood cabinet with a dry or slightly damp cloth",
+        "Brass hardware will patina naturally — polish only if desired"
+      ],
+      "rooms": ["bathroom"]
+    },
+    {
+      "id": "travertine-vanity",
+      "name": "Travertine Warm Vanity",
+      "collection": "Travertine",
+      "category": "vanity",
+      "tag": "Travertine · Vanity",
+      "badge": null,
+      "description": "Warm travertine with its earthy tones and natural pitting tells a story of ancient landscapes. Paired with tobacco-stained oak and aged brass hardware — this is the vanity for those who prefer warmth over drama.",
+      "images": [
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=900&q=80&fit=crop"
+      ],
+      "sizes": [
+        { "label": "36\" Single", "size": "36\"", "price": 2650 },
+        { "label": "48\" Single", "size": "48\"", "price": 3000 },
+        { "label": "60\" Single", "size": "60\"", "price": 3400 },
+        { "label": "60\" Double", "size": "60\" D", "price": 3950 },
+        { "label": "72\" Double", "size": "72\"", "price": 4400 },
+        { "label": "84\" Double", "size": "84\"", "price": 4900 }
+      ],
+      "materials": ["Travertine", "Carrara", "Calacatta", "Nero"],
+      "materialLabels": {
+        "Travertine": "Warm Travertine",
+        "Carrara": "Italian Carrara Marble",
+        "Calacatta": "Calacatta Gold Marble",
+        "Nero": "Nero Marquina"
+      },
+      "swatches": [
+        { "color": "Tobacco Oak", "hex": "#8B6645" },
+        { "color": "Natural White Oak", "hex": "#D4C4A8" },
+        { "color": "Aged Brass", "hex": "#B8963E" },
+        { "color": "Matte White", "hex": "#F0EDE8", "border": true },
+        { "color": "Sage Green", "hex": "#768064" }
+      ],
+      "specs": {
+        "Height": "32\" (wall-mounted)",
+        "Depth": "21\"",
+        "Stone": "Warm Travertine",
+        "Cabinet": "Solid Tobacco Oak",
+        "Hardware": "Aged Brass",
+        "Finish": "Honed"
+      },
+      "shipping": [
+        "White glove delivery included on orders over $1,500",
+        "2-person delivery team handles placement and installation",
+        "Lead time: 6–8 weeks from order confirmation",
+        "Delivery available throughout Vietnam — HCMC & Hanoi showrooms",
+        "International shipping available — contact us for a quote"
+      ],
+      "care": [
+        "Wipe travertine with a damp cloth — never use acidic cleaners",
+        "Seal travertine every 6 months with a pH-neutral stone sealer",
+        "Clean wood cabinet with a dry or slightly damp cloth",
+        "Avoid standing water on stone surfaces"
+      ],
+      "rooms": ["bathroom"]
+    },
+    {
+      "id": "vessel-basin",
+      "name": "Vessel Basin",
+      "collection": "Calacatta",
+      "category": "basin",
+      "tag": "Calacatta · Basin",
+      "badge": "New",
+      "description": "A sculptural vessel basin carved from a single block of Calacatta marble. The bowl form is hand-finished to preserve the natural character of the stone — no two pieces are identical. Designed to sit proud above the vanity top as a statement object.",
+      "images": [
+        "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=80&fit=crop"
+      ],
+      "sizes": [
+        { "label": "14\" Round", "size": "14\"", "price": 480 },
+        { "label": "16\" Round", "size": "16\"", "price": 560 },
+        { "label": "18\" Oval", "size": "18\"", "price": 640 }
+      ],
+      "materials": ["Calacatta", "Carrara", "Travertine", "Nero"],
+      "materialLabels": {
+        "Calacatta": "Calacatta Gold Marble",
+        "Carrara": "Italian Carrara Marble",
+        "Travertine": "Warm Travertine",
+        "Nero": "Nero Marquina"
+      },
+      "swatches": [],
+      "specs": {
+        "Height": "5\" (bowl depth: 4\")",
+        "Diameter": "14\" / 16\" / 18\"",
+        "Stone": "Calacatta Gold Marble",
+        "Drain": "Overflow drain included",
+        "Finish": "Honed exterior, polished interior"
+      },
+      "shipping": [
+        "Ships within 2–3 weeks",
+        "White glove delivery on orders over $1,500",
+        "International shipping available — contact us for a quote"
+      ],
+      "care": [
+        "Rinse basin after each use to prevent soap buildup",
+        "Wipe with a damp cloth — never use acidic cleaners",
+        "Seal annually with a pH-neutral stone sealer"
+      ],
+      "rooms": ["bathroom"]
+    },
+    {
+      "id": "soap-dish-tray-set",
+      "name": "Soap Dish & Tray Set",
+      "collection": "Travertine",
+      "category": "accessory",
+      "tag": "Travertine · Accessories",
+      "badge": null,
+      "description": "A curated set of bathroom accessories in warm travertine — a ribbed soap dish and a vanity tray designed to hold your daily essentials with quiet elegance. The soft pitting of travertine gives each piece a unique character.",
+      "images": [
+        "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=900&q=80&fit=crop"
+      ],
+      "sizes": [
+        { "label": "Soap Dish Only", "size": "Dish", "price": 65 },
+        { "label": "Tray Only", "size": "Tray", "price": 85 },
+        { "label": "Set of 2", "size": "Set", "price": 120 }
+      ],
+      "materials": ["Travertine", "Carrara", "Nero"],
+      "materialLabels": {
+        "Travertine": "Warm Travertine",
+        "Carrara": "Italian Carrara Marble",
+        "Nero": "Nero Marquina"
+      },
+      "swatches": [],
+      "specs": {
+        "Soap Dish": "4\" × 3\" × 0.75\"",
+        "Tray": "10\" × 5\" × 0.75\"",
+        "Stone": "Warm Travertine",
+        "Finish": "Honed"
+      },
+      "shipping": [
+        "Ships within 1–2 weeks",
+        "Free shipping on orders over $150",
+        "International shipping available — contact us for a quote"
+      ],
+      "care": [
+        "Wipe with a damp cloth after use",
+        "Avoid prolonged water exposure",
+        "Seal annually with a pH-neutral stone sealer"
+      ],
+      "rooms": ["bathroom", "kitchen"]
+    },
+    {
+      "id": "marble-cutting-board",
+      "name": "Marble Cutting Board",
+      "collection": "Carrara",
+      "category": "decor",
+      "tag": "Carrara · Cutting Board",
+      "badge": null,
+      "description": "A generously proportioned Carrara marble cutting board that doubles as a serving platter. The cool stone surface is ideal for pastry and cheese — and its cool white veining makes it equally at home as a kitchen display piece.",
+      "images": [
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=900&q=80&fit=crop"
+      ],
+      "sizes": [
+        { "label": "Small — 10\"×7\"", "size": "Small", "price": 120 },
+        { "label": "Medium — 14\"×9\"", "size": "Medium", "price": 165 },
+        { "label": "Large — 18\"×12\"", "size": "Large", "price": 195 }
+      ],
+      "materials": ["Carrara", "Calacatta", "Travertine", "Nero"],
+      "materialLabels": {
+        "Carrara": "Italian Carrara Marble",
+        "Calacatta": "Calacatta Gold Marble",
+        "Travertine": "Warm Travertine",
+        "Nero": "Nero Marquina"
+      },
+      "swatches": [],
+      "specs": {
+        "Thickness": "0.75\"",
+        "Stone": "Italian Carrara Marble",
+        "Base": "Rubber feet (anti-slip)",
+        "Finish": "Honed"
+      },
+      "shipping": [
+        "Ships within 1–2 weeks",
+        "Free shipping on orders over $150",
+        "International shipping available — contact us for a quote"
+      ],
+      "care": [
+        "Hand wash only — do not submerge in water",
+        "Dry immediately after washing",
+        "Oil rubber feet periodically to maintain grip",
+        "Seal annually with a food-safe stone sealer"
+      ],
+      "rooms": ["kitchen"]
+    },
+    {
+      "id": "decorative-tray",
+      "name": "Decorative Tray",
+      "collection": "Travertine",
+      "category": "decor",
+      "tag": "Travertine · Tray",
+      "badge": null,
+      "description": "A versatile travertine tray for the living room ottoman, bedroom dresser, or entryway console. Use it to corral candles, books, and objects — or let it stand alone as a textural element. The warm earth tones work with every palette.",
+      "images": [
+        "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=80&fit=crop"
+      ],
+      "sizes": [
+        { "label": "Small — 8\"×5\"", "size": "Small", "price": 55 },
+        { "label": "Medium — 12\"×8\"", "size": "Medium", "price": 80 },
+        { "label": "Large — 16\"×10\"", "size": "Large", "price": 110 }
+      ],
+      "materials": ["Travertine", "Carrara", "Calacatta", "Nero"],
+      "materialLabels": {
+        "Travertine": "Warm Travertine",
+        "Carrara": "Italian Carrara Marble",
+        "Calacatta": "Calacatta Gold Marble",
+        "Nero": "Nero Marquina"
+      },
+      "swatches": [],
+      "specs": {
+        "Thickness": "0.5\"",
+        "Stone": "Warm Travertine",
+        "Edge": "Straight edge, hand-finished",
+        "Finish": "Honed"
+      },
+      "shipping": [
+        "Ships within 1–2 weeks",
+        "Free shipping on orders over $150",
+        "International shipping available — contact us for a quote"
+      ],
+      "care": [
+        "Wipe with a damp cloth",
+        "Avoid prolonged water exposure",
+        "Seal annually with a pH-neutral stone sealer"
+      ],
+      "rooms": ["bathroom", "kitchen", "living-room"]
+    },
+    {
+      "id": "candle-holder-set",
+      "name": "Candle Holder Set",
+      "collection": "Carrara",
+      "category": "decor",
+      "tag": "Carrara · Candle Holder",
+      "badge": null,
+      "description": "A set of three Carrara marble candle holders in varying heights — designed to create an intimate atmosphere on dining tables, mantels, or bedside tables. Each holder is turned on a lathe for a perfect cylindrical form.",
+      "images": [
+        "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=900&q=80&fit=crop",
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=80&fit=crop"
+      ],
+      "sizes": [
+        { "label": "Single — 3\" tall", "size": "Single", "price": 65 },
+        { "label": "Set of 2", "size": "Pair", "price": 95 },
+        { "label": "Set of 3", "size": "Set", "price": 110 }
+      ],
+      "materials": ["Carrara", "Travertine", "Nero", "Calacatta"],
+      "materialLabels": {
+        "Carrara": "Italian Carrara Marble",
+        "Travertine": "Warm Travertine",
+        "Nero": "Nero Marquina",
+        "Calacatta": "Calacatta Gold Marble"
+      },
+      "swatches": [],
+      "specs": {
+        "Heights": "2\", 3\", 4\" (set of 3)",
+        "Diameter": "1.5\"",
+        "Stone": "Italian Carrara Marble",
+        "Candle": "Fits standard taper candle",
+        "Finish": "Honed"
+      },
+      "shipping": [
+        "Ships within 1–2 weeks",
+        "Free shipping on orders over $150",
+        "International shipping available — contact us for a quote"
+      ],
+      "care": [
+        "Remove wax drips with a plastic scraper — never metal",
+        "Wipe with a damp cloth",
+        "Seal annually with a pH-neutral stone sealer"
+      ],
+      "rooms": ["living-room", "bathroom"]
+    }
+  ]
+}
