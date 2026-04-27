@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrara Floating Vanity — Maison Velle</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --vanilla:#F1EADA;--sand:#CEC1A8;--tobacco:#B59E7D;--mahogany:#584738;
+  --moss:#2C3424;--olive:#768064;--cypress:#4C583E;--gold:#C9A84C;--gold-light:#E8D5A0;
+  --bg-page:#EDE5D8;--bg-surface:#F4EFE6;--bg-dark:#3A2E24;--bg-darker:#2A2018;
+  --text-h:#2C2018;--text-b:#584738;--text-m:#87766A;--text-f:#A8998E;
+  --border:rgba(88,71,56,0.13);--border-m:rgba(88,71,56,0.22);
+}
+#cd{width:7px;height:7px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cr{width:38px;height:38px;border:1.5px solid var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.45;transition:width .3s,height .3s,opacity .3s}
+#cr.big{width:70px;height:70px;opacity:.2}
+a,button,select,input,textarea{cursor:none}
+
+html{scroll-behavior:smooth;font-size:118%}
+body{font-family:'Jost',sans-serif;background:var(--bg-page);color:var(--text-b);font-weight:300;line-height:1.7;overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+#cur-dot{width:7px;height:7px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cur-ring{width:38px;height:38px;border:1.5px solid var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.45;transition:width .3s,height .3s,opacity .3s}
+#cur-ring.big{width:70px;height:70px;opacity:.2}
+a,button,select,input,textarea{cursor:none}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.on{opacity:1;transform:none}
+.rv-l{opacity:0;transform:translateX(-36px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv-l.on{opacity:1;transform:none}
+.rv-r{opacity:0;transform:translateX(36px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv-r.on{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* ANN BAR */
+.ann{position:fixed;top:0;left:0;right:0;z-index:102;background:var(--mahogany);color:var(--vanilla);padding:8px 5vw;display:flex;align-items:center;justify-content:center;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;text-align:center}
+.ann a{color:var(--gold-light);text-decoration:underline;text-underline-offset:3px}
+.ann-x{position:absolute;right:2rem;background:none;border:none;color:var(--vanilla);font-size:14px;opacity:.5;line-height:1;padding:0;transition:opacity .2s}
+.ann-x:hover{opacity:1}
+
+/* ── NAV (same as shop-by-collection) ── */
+nav{position:fixed;top:34px;left:0;right:0;z-index:100;background:rgba(237,229,216,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 5vw;transition:top .3s}
+.nav-top{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0 .6rem;border-bottom:1px solid var(--border);position:relative}
+.nav-logo{text-decoration:none;line-height:1;position:absolute;left:50%;transform:translateX(-50%);text-align:center}
+.nav-logo-text{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;letter-spacing:.16em;color:var(--text-h);display:block}
+.nav-logo-text span{color:var(--olive)}
+.nav-logo-sub{font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--text-f);margin-top:2px;display:block;font-weight:300}
+.nav-left{display:flex;align-items:center}
+.nav-search{display:flex;align-items:center;border:1px solid var(--border-m);background:var(--bg-surface);overflow:hidden;width:220px}
+.nav-search input{border:none;outline:none;background:transparent;font-family:'Jost',sans-serif;font-size:12px;font-weight:300;color:var(--text-h);padding:8px 12px;width:100%}
+.nav-search input::placeholder{color:var(--text-f)}
+.nav-search button{background:none;border:none;padding:0 11px;font-size:14px;color:var(--text-m)}
+.nav-right{display:flex;gap:0;align-items:center}
+.nav-action{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;padding:4px 10px;color:var(--text-m);transition:color .2s;position:relative}
+.nav-action:hover{color:var(--text-h)}
+.nav-action svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.nav-action span{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:400;white-space:nowrap}
+.nav-cart-count{position:absolute;top:2px;right:6px;background:var(--mahogany);color:var(--vanilla);font-size:9px;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;margin-left:1rem}
+.hamburger span{width:22px;height:1px;background:var(--text-h);display:block;transition:transform .3s,opacity .3s}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.nav-bot{display:flex;align-items:center;justify-content:center;padding:0}
+.nav-links{display:flex;gap:0;list-style:none}
+.nav-links>li{position:relative}
+.nav-links>li>a{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-m);text-decoration:none;font-weight:400;transition:color .2s;padding:.6rem 1rem;display:block;white-space:nowrap;position:relative}
+.nav-links>li>a::after{content:'';position:absolute;bottom:0;left:1rem;right:1rem;height:1.5px;background:var(--mahogany);transform:scaleX(0);transform-origin:left;transition:transform .28s}
+.nav-links>li:hover>a,.nav-links>li>a.active{color:var(--text-h)}
+.nav-links>li:hover>a::after,.nav-links>li>a.active::after{transform:scaleX(1)}
+.mega{display:none;position:absolute;top:100%;left:0;background:var(--bg-surface);border:1px solid var(--border);border-top:2px solid var(--mahogany);width:720px;padding:2.5rem;grid-template-columns:1fr 1fr 1fr 190px;gap:2.5rem;z-index:9999;box-shadow:0 12px 40px rgba(88,71,56,.14)}
+.nav-links>li:hover>.mega{display:grid}
+.mega-col h4{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-h);font-weight:500;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.mega-col ul{list-style:none;display:flex;flex-direction:column;gap:.45rem}
+.mega-col ul li a{font-size:12.5px;color:var(--text-m);text-decoration:none;font-weight:300;transition:color .2s,padding-left .2s;display:block;padding:2px 0}
+.mega-col ul li a:hover{color:var(--mahogany);padding-left:6px}
+.mega-all{margin-top:.9rem;padding-top:.9rem;border-top:1px solid var(--border)}
+.mega-all a{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mahogany);text-decoration:none;font-weight:400;white-space:nowrap}
+.mega-img{overflow:hidden}
+.mega-img img{width:100%;height:155px;object-fit:cover;display:block;transition:transform .5s}
+.mega-img:hover img{transform:scale(1.05)}
+.mega-img-label{margin-top:.8rem}
+.mega-img-label p{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-f);margin-bottom:3px}
+.mega-img-label a{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:400;color:var(--text-h);text-decoration:none}
+.mega-img-label a:hover{color:var(--olive)}
+.mob-menu{position:fixed;top:0;left:0;right:0;bottom:0;z-index:99;background:var(--bg-surface);padding:7rem 7vw 4rem;transform:translateX(-100%);transition:transform .45s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;gap:2rem}
+.mob-menu.open{transform:none}
+.mob-menu a{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--text-h);text-decoration:none}
+
+/* BTNS */
+.btn-dk{background:var(--mahogany);color:var(--vanilla);padding:13px 32px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;font-family:'Jost',sans-serif;font-weight:400;border:none;display:inline-block;transition:background .3s}
+.btn-dk:hover{background:var(--moss)}
+.btn-lt{background:var(--vanilla);color:var(--mahogany);padding:13px 32px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;font-family:'Jost',sans-serif;font-weight:400;border:none;display:inline-block;transition:background .3s}
+.btn-lt:hover{background:var(--gold-light)}
+.btn-ol{background:transparent;color:var(--vanilla);padding:13px 32px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;font-family:'Jost',sans-serif;font-weight:400;border:1px solid rgba(241,234,218,.5);display:inline-block;transition:background .3s,border-color .3s}
+.btn-ol:hover{background:rgba(241,234,218,.1);border-color:var(--vanilla)}
+.btn-arrow{display:inline-flex;align-items:center;gap:.7rem;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(241,234,218,.8);text-decoration:none;font-weight:300;transition:gap .3s,color .2s}
+.btn-arrow::before{content:'→';font-size:16px}
+.btn-arrow:hover{color:var(--vanilla);gap:1.1rem}
+.btn-ghost{color:var(--text-m);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;font-weight:400;border-bottom:1px solid var(--border-m);padding-bottom:2px;transition:color .2s,border-color .2s}
+.btn-ghost:hover{color:var(--text-h);border-color:var(--mahogany)}
+.mag{transition:transform .3s cubic-bezier(.16,1,.3,1)}
+
+/* BREADCRUMB */
+.breadcrumb{padding:1.2rem 5vw;display:flex;align-items:center;gap:.5rem;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-f);flex-wrap:wrap}
+.breadcrumb a{color:var(--text-f);text-decoration:none;transition:color .2s}
+.breadcrumb a:hover{color:var(--text-h)}
+.breadcrumb span{color:var(--border-m)}
+
+/* PRODUCT LAYOUT */
+.product-wrap{display:grid;grid-template-columns:1fr 480px;gap:0;min-height:80vh;align-items:start}
+
+/* IMAGE GALLERY */
+.gallery{position:sticky;top:88px;padding:0 3vw 4rem 5vw}
+.gallery-main{position:relative;overflow:hidden;background:var(--bg-surface);aspect-ratio:1/1;margin-bottom:3px}
+.gallery-main img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1);display:block}
+.gallery-main:hover img{transform:scale(1.04)}
+.gallery-main-badge{position:absolute;top:1.2rem;left:1.2rem;background:var(--gold);color:var(--mahogany);font-size:9px;letter-spacing:.18em;text-transform:uppercase;padding:4px 10px;font-family:'Jost',sans-serif;font-weight:500;z-index:2}
+.gallery-zoom{position:absolute;bottom:1.2rem;right:1.2rem;width:36px;height:36px;background:rgba(244,239,230,.9);border:1px solid var(--border-m);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-m);cursor:none;z-index:2;transition:background .2s}
+.gallery-zoom:hover{background:var(--vanilla)}
+.gallery-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.thumb{aspect-ratio:1/1;overflow:hidden;background:var(--bg-surface);cursor:none;position:relative;border:2px solid transparent;transition:border-color .2s}
+.thumb.active{border-color:var(--mahogany)}
+.thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s;display:block}
+.thumb:hover img{transform:scale(1.06)}
+
+/* PRODUCT INFO */
+.product-info{padding:3rem 5vw 4rem 2vw;border-left:1px solid var(--border)}
+.prod-collection{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--olive);margin-bottom:.6rem}
+.prod-name{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,42px);font-weight:300;color:var(--text-h);line-height:1.15;margin-bottom:.8rem}
+.prod-rating{display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem}
+.stars{color:var(--gold);font-size:13px;letter-spacing:2px}
+.rating-count{font-size:12px;color:var(--text-f);border-bottom:1px solid var(--border-m);padding-bottom:1px}
+.prod-price-row{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.8rem;padding-bottom:1.8rem;border-bottom:1px solid var(--border)}
+.prod-price{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--text-h)}
+.prod-price-note{font-size:11px;color:var(--text-f);letter-spacing:.08em}
+
+/* OPTIONS */
+.option-group{margin-bottom:1.6rem}
+.option-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-h);margin-bottom:.8rem;font-weight:400;display:flex;justify-content:space-between;align-items:center}
+.option-label span{color:var(--tobacco);font-weight:300;letter-spacing:.06em;text-transform:none;font-size:12px}
+
+/* SIZE BUTTONS */
+.size-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.size-btn{background:var(--bg-surface);border:1px solid var(--border-m);padding:10px 8px;font-size:11.5px;font-family:'Jost',sans-serif;font-weight:300;color:var(--text-m);text-align:center;transition:all .2s;line-height:1.3}
+.size-btn:hover{border-color:var(--mahogany);color:var(--text-h)}
+.size-btn.active{background:var(--mahogany);border-color:var(--mahogany);color:var(--vanilla)}
+.size-btn.unavailable{opacity:.35;text-decoration:line-through}
+
+/* COLOR SWATCHES */
+.swatch-grid{display:flex;gap:8px;flex-wrap:wrap}
+.swatch{width:36px;height:36px;border:2px solid transparent;position:relative;transition:border-color .2s;overflow:hidden}
+.swatch:hover{border-color:var(--mahogany)}
+.swatch.active{border-color:var(--mahogany)}
+.swatch.active::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--vanilla);background:rgba(88,71,56,.35);font-weight:400}
+.swatch-img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* MATERIAL SELECT */
+.mat-select{width:100%;background:var(--bg-surface);border:1px solid var(--border-m);color:var(--text-h);padding:12px 14px;font-size:13px;font-family:'Jost',sans-serif;font-weight:300;outline:none;transition:border-color .2s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23584738' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.mat-select:focus{border-color:var(--tobacco)}
+
+/* QTY + ADD */
+.add-row{display:flex;gap:8px;margin-bottom:1.2rem}
+.qty-wrap{display:flex;border:1px solid var(--border-m);background:var(--bg-surface);flex-shrink:0}
+.qty-btn{width:40px;height:48px;background:none;border:none;font-size:18px;color:var(--text-m);display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s}
+.qty-btn:hover{background:var(--bg-page);color:var(--text-h)}
+.qty-num{width:44px;height:48px;border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);background:transparent;text-align:center;font-size:14px;font-family:'Jost',sans-serif;font-weight:400;color:var(--text-h);outline:none}
+.add-btn{flex:1;background:var(--mahogany);color:var(--vanilla);border:none;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-family:'Jost',sans-serif;font-weight:400;transition:background .3s;height:48px}
+.add-btn:hover{background:var(--moss)}
+.wishlist-btn{width:48px;height:48px;background:var(--bg-surface);border:1px solid var(--border-m);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text-m);flex-shrink:0;transition:all .2s}
+.wishlist-btn:hover{border-color:var(--mahogany);color:var(--mahogany)}
+.wishlist-btn.active{color:var(--mahogany);border-color:var(--mahogany)}
+
+.contact-btn{width:100%;background:transparent;color:var(--mahogany);border:1px solid var(--border-m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-family:'Jost',sans-serif;font-weight:400;height:48px;transition:all .2s;margin-bottom:1.6rem}
+.contact-btn:hover{border-color:var(--mahogany);background:rgba(88,71,56,.04)}
+
+/* TRUST BADGES */
+.trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;padding:1.4rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:1.6rem}
+.trust-item{text-align:center}
+.trust-icon{font-size:18px;margin-bottom:4px;color:var(--tobacco)}
+.trust-item p{font-size:10.5px;color:var(--text-m);line-height:1.4;letter-spacing:.04em}
+
+/* ACCORDION */
+.accordion{border-top:1px solid var(--border)}
+.acc-item{border-bottom:1px solid var(--border)}
+.acc-trigger{width:100%;background:none;border:none;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 0;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-h);font-family:'Jost',sans-serif;font-weight:400;text-align:left}
+.acc-icon{font-size:18px;color:var(--text-m);transition:transform .3s;flex-shrink:0}
+.acc-icon.open{transform:rotate(45deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)}
+.acc-body.open{max-height:600px}
+.acc-inner{padding:.2rem 0 1.4rem}
+.acc-inner p,.acc-inner li{font-size:13px;color:var(--text-m);line-height:1.85;font-weight:300}
+.acc-inner ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.acc-inner ul li::before{content:'—';margin-right:.6rem;color:var(--gold)}
+.specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem 2rem}
+.spec-row{padding:.5rem 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:2px}
+.spec-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-f)}
+.spec-val{font-size:13px;color:var(--text-h);font-weight:400}
+
+/* BOTTOM SECTIONS */
+.section{padding:5rem 5vw}
+.sec-h{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,40px);font-weight:300;color:var(--text-h);margin-bottom:3rem}
+.sec-h em{font-style:italic}
+
+/* RELATED PRODUCTS */
+.related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.rel-card{background:var(--bg-surface);cursor:none;position:relative;overflow:hidden}
+.rel-img{aspect-ratio:3/4;overflow:hidden;position:relative}
+.rel-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1);display:block}
+.rel-card:hover .rel-img img{transform:scale(1.05)}
+.rel-info{padding:1.1rem 1rem 1.5rem}
+.rel-cat{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-f);margin-bottom:4px}
+.rel-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--text-h);margin-bottom:4px;line-height:1.3}
+.rel-price{font-size:12.5px;color:var(--text-m)}
+
+/* RECENTLY VIEWED */
+.rv-section{padding:4rem 5vw;background:var(--bg-surface);border-top:1px solid var(--border)}
+
+/* FOOTER */
+.ft-main{background:var(--bg-dark);padding:4rem 5vw 0}
+.ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3.5rem;border-bottom:1px solid rgba(241,234,218,.1)}
+.ft-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;letter-spacing:.14em;color:var(--vanilla);text-decoration:none;display:block;margin-bottom:4px}
+.ft-logo span{color:var(--gold)}
+.ft-tag{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-f);margin-bottom:1.3rem;display:block}
+.ft-brand p{font-size:13px;color:var(--text-f);line-height:1.85;font-weight:300;margin-bottom:1.4rem;max-width:240px}
+.socials{display:flex;gap:.6rem}
+.soc{width:32px;height:32px;border:1px solid rgba(241,234,218,.15);display:flex;align-items:center;justify-content:center;color:var(--text-f);text-decoration:none;transition:border-color .2s,color .2s}
+.soc:hover{border-color:var(--gold);color:var(--gold)}
+.ft-col h4{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--vanilla);margin-bottom:1.3rem;font-weight:400}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.ft-col ul a{font-size:13px;color:var(--text-f);text-decoration:none;font-weight:300;transition:color .2s,padding-left .2s}
+.ft-col ul a:hover{color:var(--vanilla);padding-left:4px}
+.ft-addr{font-size:13px;color:var(--text-f);line-height:1.85;font-weight:300}
+.ft-addr strong{color:var(--vanilla);font-weight:400;display:block;margin:1rem 0 .3rem}
+.ft-addr strong:first-child{margin-top:0}
+.ft-bot{background:var(--bg-darker);padding:1.3rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.ft-copy{font-size:11px;color:var(--text-f)}
+.ft-legal{display:flex;gap:2rem;list-style:none}
+.ft-legal a{font-size:11px;color:var(--text-f);text-decoration:none;transition:color .2s}
+.ft-legal a:hover{color:var(--vanilla)}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .product-wrap{grid-template-columns:1fr}
+  .gallery{position:static;padding:0 5vw 2rem}
+  .product-info{border-left:none;border-top:1px solid var(--border);padding:2rem 5vw}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+  .ft-grid{grid-template-columns:1fr 1fr;gap:2rem}
+}
+@media(max-width:560px){
+  .related-grid{grid-template-columns:1fr 1fr}
+  .ft-grid{grid-template-columns:1fr}
+  .ft-bot{flex-direction:column;text-align:center}
+  .ft-legal{flex-wrap:wrap;justify-content:center}
+  .size-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* MOBILE HEADER OVERRIDE */
+
+@media(max-width:768px){
+  nav{top:30px}
+  .ann{font-size:9px;padding:6px 2.5rem;letter-spacing:.12em;text-align:center;flex-wrap:wrap}
+  .nav-top{padding:.5rem 0}
+  .nav-left{display:none}
+  .nav-bot{display:none}
+  .hamburger{display:flex !important}
+  .nav-right{gap:0}
+  .nav-action:nth-child(-n+4){display:none}
+  .nav-action:last-of-type{display:flex}
+  .nav-action span{display:none}
+  .nav-action{padding:4px 8px}
+  .nav-logo-text{font-size:20px}
+  .product-wrap{grid-template-columns:1fr}
+  .gallery{position:static;padding:0 4vw 2rem}
+  .pdp-right{padding:2rem 4vw 4rem}
+}
+@media(max-width:480px){
+  .nav-logo-text{font-size:17px}
+  .nav-logo-sub{letter-spacing:.2em;font-size:7px}
+}</style>
+</head>
+<body>
+
+<div id="cd"></div>
+<div id="cr"></div>
+
+<div class="ann" id="annBar">
+  <span>✦ Complimentary white glove delivery on orders over $1,500 &nbsp;·&nbsp; New Carrara Collection — <a href="shop-by-collection.html">Discover Now</a></span>
+  <button class="ann-x" id="annX">✕</button>
+</div>
+<nav id="mainNav">
+  <div class="nav-top">
+    <div class="nav-left">
+      <div class="nav-search"><input type="text" placeholder="Search vanities, marble, décor…"><button><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button></div>
+    </div>
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text">Maison <span>Velle</span></span>
+      <span class="nav-logo-sub">Luxury Bath &amp; Marble Décor</span>
+    </a>
+    <div class="nav-right">
+      <a href="#" class="nav-action"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Account</span></a>
+      <a href="#" class="nav-action"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg><span>Track Order</span></a>
+      <a href="#" class="nav-action"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Recents</span></a>
+      <a href="#" class="nav-action"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>Favorites</span></a>
+      <a href="#" class="nav-action"><svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>Cart</span><div class="nav-cart-count">0</div></a>
+      <button class="hamburger" id="hbg"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="nav-bot">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li>
+        <a href="shop-by-collection.html">Shop by Collection</a>
+        <div class="mega">
+          <div class="mega-col"><h4>New Arrivals</h4><ul><li><a href="shop-by-collection.html">Nero Marquina</a></li><li><a href="shop-by-collection.html">Calacatta</a></li><li><a href="shop-by-collection.html">Vessel Basins</a></li></ul></div>
+          <div class="mega-col"><h4>All Collections</h4><ul><li><a href="shop-by-collection.html">Carrara</a></li><li><a href="shop-by-collection.html">Travertine</a></li><li><a href="shop-by-collection.html">Emperador</a></li><li><a href="shop-by-collection.html">Unlacquered Brass</a></li></ul><div class="mega-all"><a href="shop-by-collection.html">View All Collections →</a></div></div>
+          <div class="mega-col"><h4>By Marble Type</h4><ul><li><a href="shop-by-collection.html">White Marble</a></li><li><a href="shop-by-collection.html">Dark Marble</a></li><li><a href="shop-by-collection.html">Warm Stone</a></li><li><a href="shop-by-collection.html">Travertine</a></li></ul></div>
+          <div class="mega-col mega-img"><img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80&fit=crop" alt="Carrara"><div class="mega-img-label"><p>Featured</p><a href="shop-by-collection.html">Carrara Collection →</a></div></div>
+        </div>
+      </li>
+      <li>
+        <a href="shop-by-room.html">Shop by Room</a>
+        <div class="mega">
+          <div class="mega-col"><h4>Bathroom</h4><ul><li><a href="shop-by-collection.html">Master Bathroom</a></li><li><a href="shop-by-collection.html">Guest Bathroom</a></li><li><a href="shop-by-collection.html">Powder Room</a></li></ul></div>
+          <div class="mega-col"><h4>Kitchen</h4><ul><li><a href="shop-by-collection.html">Kitchen Countertops</a></li><li><a href="shop-by-collection.html">Kitchen Accessories</a></li><li><a href="shop-by-collection.html">Cutting Boards</a></li></ul></div>
+          <div class="mega-col"><h4>Living Room &amp; Bedroom</h4><ul><li><a href="shop-by-collection.html">Decorative Trays</a></li><li><a href="shop-by-collection.html">Candle Holders</a></li><li><a href="shop-by-collection.html">Bedside Accessories</a></li><li><a href="shop-by-collection.html">Marble Objects</a></li></ul></div>
+          <div class="mega-col mega-img"><img src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=400&q=80&fit=crop" alt="Room"><div class="mega-img-label"><p>Inspiration</p><a href="shop-by-collection.html">Shop the Look →</a></div></div>
+        </div>
+      </li>
+      <li>
+        <a href="shop-by-collection.html">Shop by Category</a>
+        <div class="mega">
+          <div class="mega-col"><h4>Bathroom Vanity</h4><ul><li><a href="product-detail-page.html">Single Vanities</a></li><li><a href="product-detail-page.html">Double Vanities</a></li><li><a href="product-detail-page.html">Floating Vanities</a></li><li><a href="product-detail-page.html">Freestanding Vanities</a></li></ul><div class="mega-all"><a href="product-detail-page.html">All Vanities →</a></div></div>
+          <div class="mega-col"><h4>Vanity Countertops</h4><ul><li><a href="product-detail-page.html">Carrara Marble Tops</a></li><li><a href="product-detail-page.html">Calacatta Marble Tops</a></li><li><a href="product-detail-page.html">Travertine Tops</a></li><li><a href="product-detail-page.html">Custom Sizing</a></li></ul><div class="mega-all"><a href="product-detail-page.html">All Countertops →</a></div></div>
+          <div class="mega-col"><h4>Accessories</h4><ul><li><a href="product-detail-page.html">Trays</a></li><li><a href="product-detail-page.html">Candle Holders</a></li><li><a href="product-detail-page.html">Shower Corner Shelves</a></li><li><a href="product-detail-page.html">Cutting Boards</a></li><li><a href="product-detail-page.html">Napkin Holders</a></li></ul><div class="mega-all"><a href="product-detail-page.html">All Accessories →</a></div></div>
+          <div class="mega-col mega-img"><img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=80&fit=crop" alt="Accessories"><div class="mega-img-label"><p>New In</p><a href="product-detail-page.html">Travertine Accessories →</a></div></div>
+        </div>
+      </li>
+      <li><a href="index.html#s-newin">New In</a></li>
+      <li><a href="contact-page.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="index.html">Home</a>
+  <a href="shop-by-collection.html">Shop by Collection</a>
+  <a href="shop-by-room.html">Shop by Room</a>
+  <a href="shop-by-collection.html">Shop by Category</a>
+  <a href="index.html#s-newin">New In</a>
+  <a href="contact-page.html">Contact</a>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="#">Home</a><span>/</span>
+  <a href="#">Bathroom Vanities</a><span>/</span>
+  <a href="#">Carrara Collection</a><span>/</span>
+  <span style="color:var(--text-h)">Carrara Floating Vanity</span>
+</div>
+
+<!-- PRODUCT -->
+<div class="product-wrap">
+
+  <!-- GALLERY -->
+  <div class="gallery">
+    <div class="gallery-main" id="mainImg">
+      <div class="gallery-main-badge">New Arrival</div>
+      <img id="mainImgEl" src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&q=85&fit=crop" alt="Carrara Floating Vanity">
+      <div class="gallery-zoom" title="Zoom">⊕</div>
+    </div>
+    <div class="gallery-thumbs">
+      <div class="thumb active" data-img="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&q=85&fit=crop">
+        <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=200&q=80&fit=crop" alt="">
+      </div>
+      <div class="thumb" data-img="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=900&q=85&fit=crop">
+        <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=200&q=80&fit=crop" alt="">
+      </div>
+      <div class="thumb" data-img="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=85&fit=crop">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=200&q=80&fit=crop" alt="">
+      </div>
+      <div class="thumb" data-img="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=900&q=85&fit=crop">
+        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=200&q=80&fit=crop" alt="">
+      </div>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="product-info">
+    <p class="prod-collection">Carrara Collection</p>
+    <h1 class="prod-name">Carrara Floating Vanity</h1>
+    <div class="prod-rating">
+      <span class="stars">★★★★★</span>
+      <a href="#reviews" class="rating-count">48 Reviews</a>
+    </div>
+    <div class="prod-price-row">
+      <span class="prod-price" id="displayPrice">$2,850</span>
+      <span class="prod-price-note">Price varies by size &amp; finish</span>
+    </div>
+
+    <!-- SIZE -->
+    <div class="option-group">
+      <div class="option-label">Width <span id="selectedSize">36"</span></div>
+      <div class="size-grid">
+        <button class="size-btn active" data-size='36"' data-price="2850">36" Single</button>
+        <button class="size-btn" data-size='48"' data-price="3200">48" Single</button>
+        <button class="size-btn" data-size='60"' data-price="3650">60" Single</button>
+        <button class="size-btn" data-size='60" D"' data-price="4200">60" Double</button>
+        <button class="size-btn" data-size='72"' data-price="4650">72" Double</button>
+        <button class="size-btn unavailable" data-size='84"' data-price="5200">84" Double</button>
+      </div>
+    </div>
+
+    <!-- MATERIAL -->
+    <div class="option-group">
+      <div class="option-label">Stone Type <span id="selectedMat">Italian Carrara</span></div>
+      <select class="mat-select" id="matSelect">
+        <option value="Carrara">Italian Carrara Marble — Classic Grey Veining</option>
+        <option value="Calacatta">Calacatta Marble — Bold Gold Veining</option>
+        <option value="Travertine">Travertine — Warm Earth Tones</option>
+        <option value="Nero">Nero Marquina — Jet Black &amp; White</option>
+      </select>
+    </div>
+
+    <!-- COLOR / CABINET FINISH -->
+    <div class="option-group">
+      <div class="option-label">Cabinet Finish <span id="selectedColor">Natural White Oak</span></div>
+      <div class="swatch-grid">
+        <div class="swatch active" data-color="Natural White Oak" title="Natural White Oak" style="background:#D4C4A8">
+        </div>
+        <div class="swatch" data-color="Smoked Oak" title="Smoked Oak" style="background:#7A6552">
+        </div>
+        <div class="swatch" data-color="Matte White" title="Matte White" style="background:#F0EDE8;border:1px solid var(--border-m)">
+        </div>
+        <div class="swatch" data-color="Sage Green" title="Sage Green" style="background:#768064">
+        </div>
+        <div class="swatch" data-color="Midnight Navy" title="Midnight Navy" style="background:#2C3448">
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD TO CART -->
+    <div class="add-row">
+      <div class="qty-wrap">
+        <button class="qty-btn" id="qtyMinus">−</button>
+        <input class="qty-num" type="number" id="qtyNum" value="1" min="1" max="10" readonly>
+        <button class="qty-btn" id="qtyPlus">+</button>
+      </div>
+      <button class="add-btn">Add to Cart</button>
+      <button class="wishlist-btn" id="wishBtn" title="Add to Wishlist">♡</button>
+    </div>
+    <button class="contact-btn">Request a Trade Quote</button>
+
+    <!-- TRUST BADGES -->
+    <div class="trust-row">
+      <div class="trust-item">
+        <div class="trust-icon">⬡</div>
+        <p>Free White<br>Glove Delivery</p>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">◈</div>
+        <p>Natural Stone<br>Guarantee</p>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">◇</div>
+        <p>30-Day<br>Returns</p>
+      </div>
+    </div>
+
+    <!-- ACCORDION -->
+    <div class="accordion">
+      <div class="acc-item">
+        <button class="acc-trigger" data-acc="desc">
+          Description <span class="acc-icon">+</span>
+        </button>
+        <div class="acc-body open" id="acc-desc">
+          <div class="acc-inner">
+            <p>The Carrara Floating Vanity is our most beloved piece — a wall-mounted cabinet that brings the quiet luxury of Italian marble into your daily routine. Each slab is hand-selected for its veining, meaning no two vanities are identical.</p>
+            <br>
+            <p>The solid white oak cabinet is crafted with dovetail-jointed drawers, soft-close hardware, and a depth that actually fits your things. Unlacquered brass pulls age gracefully over time, developing a patina that's entirely your own.</p>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-trigger" data-acc="specs">
+          Dimensions &amp; Specifications <span class="acc-icon">+</span>
+        </button>
+        <div class="acc-body" id="acc-specs">
+          <div class="acc-inner">
+            <div class="specs-grid">
+              <div class="spec-row"><span class="spec-label">Width</span><span class="spec-val" id="specWidth">36"</span></div>
+              <div class="spec-row"><span class="spec-label">Height</span><span class="spec-val">32" (wall-mounted)</span></div>
+              <div class="spec-row"><span class="spec-label">Depth</span><span class="spec-val">21.5"</span></div>
+              <div class="spec-row"><span class="spec-label">Stone</span><span class="spec-val" id="specMat">Italian Carrara Marble</span></div>
+              <div class="spec-row"><span class="spec-label">Cabinet</span><span class="spec-val">Solid White Oak</span></div>
+              <div class="spec-row"><span class="spec-label">Hardware</span><span class="spec-val">Unlacquered Brass</span></div>
+              <div class="spec-row"><span class="spec-label">Drawers</span><span class="spec-val">3 Soft-Close</span></div>
+              <div class="spec-row"><span class="spec-label">Weight</span><span class="spec-val">~185 lbs</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-trigger" data-acc="shipping">
+          Shipping &amp; Delivery <span class="acc-icon">+</span>
+        </button>
+        <div class="acc-body" id="acc-shipping">
+          <div class="acc-inner">
+            <ul>
+              <li>White glove delivery included on orders over $1,500</li>
+              <li>2-person delivery team handles placement and installation</li>
+              <li>Lead time: 6–8 weeks from order confirmation</li>
+              <li>Delivery available throughout Vietnam — HCMC &amp; Hanoi showrooms</li>
+              <li>International shipping available upon request</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-trigger" data-acc="care">
+          Care &amp; Maintenance <span class="acc-icon">+</span>
+        </button>
+        <div class="acc-body" id="acc-care">
+          <div class="acc-inner">
+            <ul>
+              <li>Wipe marble with a damp cloth — never use acidic cleaners</li>
+              <li>Seal marble annually with a pH-neutral stone sealer</li>
+              <li>Clean wood cabinet with a dry or slightly damp cloth</li>
+              <li>Brass hardware will patina naturally — polish only if desired</li>
+              <li>Avoid standing water on marble surface</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- RELATED PRODUCTS -->
+<div class="section" style="background:var(--bg-surface)">
+  <h2 class="sec-h">Complete the <em>Look</em></h2>
+  <div class="related-grid">
+    <div class="rel-card">
+      <div class="rel-img"><img src="https://images.unsplash.com/photo-1620626011761-996317702149?w=500&q=80&fit=crop" alt="Oval Basin"></div>
+      <div class="rel-info"><p class="rel-cat">Stone Basin</p><p class="rel-name">Oval Vessel Basin</p><p class="rel-price">$1,290</p></div>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"><img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=500&q=80&fit=crop" alt="Mirror"></div>
+      <div class="rel-info"><p class="rel-cat">Mirror</p><p class="rel-name">Emperador Arch Mirror</p><p class="rel-price">$890</p></div>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"><img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&q=80&fit=crop" alt="Tray"></div>
+      <div class="rel-info"><p class="rel-cat">Accessory</p><p class="rel-name">Travertine Vanity Tray</p><p class="rel-price">$320</p></div>
+    </div>
+    <div class="rel-card">
+      <div class="rel-img"><img src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=500&q=80&fit=crop" alt="Hardware"></div>
+      <div class="rel-info"><p class="rel-cat">Hardware</p><p class="rel-name">Brass Faucet Set</p><p class="rel-price">$480</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="ft-main">
+  <div class="ft-grid">
+    <div class="ft-brand">
+      <a href="#" class="ft-logo">Maison <span>Velle</span></a>
+      <span class="ft-tag">Luxury Bath &amp; Marble Décor</span>
+      <p>Crafting marble vanities and stone décor for those who believe every space deserves beauty and intention.</p>
+      <div class="socials">
+        <a href="#" class="soc" title="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" class="soc" title="Pinterest"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.236 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.428 1.808-2.428.853 0 1.267.641 1.267 1.408 0 .858-.546 2.141-.828 3.329-.236.995.499 1.806 1.476 1.806 1.772 0 3.137-1.867 3.137-4.559 0-2.386-1.715-4.054-4.163-4.054-2.838 0-4.502 2.129-4.502 4.33 0 .858.33 1.777.741 2.28a.3.3 0 0 1 .069.285c-.076.313-.243.995-.276 1.134-.044.183-.146.222-.337.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.967-.527-2.292-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg></a>
+        <a href="#" class="soc" title="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+        <a href="#" class="soc" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg></a>
+      </div>
+    </div>
+    <div class="ft-col"><h4>Shop</h4><ul>
+      <li><a href="#">Bathroom Vanities</a></li><li><a href="#">Stone Basins</a></li>
+      <li><a href="#">Marble Décor</a></li><li><a href="#">Mirrors</a></li>
+      <li><a href="#">Accessories</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Company</h4><ul>
+      <li><a href="#">Our Story</a></li><li><a href="#">Craftsmanship</a></li>
+      <li><a href="#">Showroom</a></li><li><a href="#">Contact</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Visit Us</h4>
+      <div class="ft-addr">
+        <strong>Ho Chi Minh City</strong>12 Nguyễn Huệ, Quận 1<br>Ho Chi Minh City
+        <strong>Hanoi</strong>56 Tràng Tiền, Hoàn Kiếm<br>Hanoi
+        <strong>Hours</strong>Mon – Sat: 9am – 6pm
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ft-bot">
+  <p class="ft-copy">© 2025 Maison Velle. All rights reserved.</p>
+  <ul class="ft-legal">
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Shipping &amp; Returns</a></li>
+  </ul>
+</div>
+
+<script>
+/* CURSOR */
+const dot=document.getElementById('cd'),ring=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.prod-card,.cat-card,.room-card,.ni-card,.pick-inner,.soc').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('big'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('big'));
+});
+
+/* ANN */
+const annX=document.getElementById('annX'),annBar=document.getElementById('annBar'),nav=document.getElementById('mainNav');
+annX.addEventListener('click',()=>{annBar.style.display='none';nav.style.top='0';});
+
+/* HAMBURGER */
+const hbg=document.getElementById('hbg'),mob=document.getElementById('mobMenu');
+hbg.addEventListener('click',()=>{hbg.classList.toggle('open');mob.classList.toggle('open');});
+
+/* SCROLL REVEAL */
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('on');io.unobserve(x.target);}});},{threshold:.1});
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>io.observe(el));
+
+
+/* THUMBNAIL GALLERY */
+document.querySelectorAll('.thumb').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.thumb').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const main=document.getElementById('mainImgEl');
+    main.style.opacity='0';
+    main.style.transform='scale(1.02)';
+    setTimeout(()=>{
+      main.src=t.dataset.img;
+      main.style.transition='opacity .4s,transform .4s';
+      main.style.opacity='1';
+      main.style.transform='scale(1)';
+    },200);
+  });
+});
+
+
+/* LOAD PRODUCT FROM URL */
+const PRODUCTS_URL = 'products.json';
+
+async function loadProduct() {
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get('id') || 'carrara-floating-vanity';
+
+  let products;
+  try {
+    const res = await fetch(PRODUCTS_URL);
+    const data = await res.json();
+    products = data.products;
+  } catch(e) {
+    console.warn('Could not load products.json — using fallback');
+    return;
+  }
+
+  const p = products.find(x => x.id === productId) || products[0];
+  if (!p) return;
+
+  // ── Title & breadcrumb ────────────────────────────────────────
+  document.title = p.name + ' — Maison Velle';
+  const h1 = document.querySelector('.pdp-title');
+  if (h1) h1.textContent = p.name;
+  const tagEl = document.querySelector('.pdp-tag');
+  if (tagEl) tagEl.textContent = p.tag;
+  const bc = document.querySelector('.breadcrumb span[style]');
+  if (bc) bc.textContent = p.name;
+
+  // ── Badge ─────────────────────────────────────────────────────
+  const badge = document.querySelector('.pdp-badge');
+  if (badge) {
+    if (p.badge) { badge.textContent = p.badge; badge.style.display = ''; }
+    else badge.style.display = 'none';
+  }
+
+  // ── Description ───────────────────────────────────────────────
+  const desc = document.querySelector('.pdp-desc');
+  if (desc) desc.textContent = p.description;
+
+  // ── Images ────────────────────────────────────────────────────
+  const mainImg = document.getElementById('mainImg');
+  if (mainImg && p.images[0]) mainImg.style.backgroundImage = "url('" + p.images[0] + "')";
+  const thumbs = document.querySelectorAll('.thumb');
+  thumbs.forEach((t, i) => {
+    if (p.images[i]) {
+      t.style.backgroundImage = "url('" + p.images[i] + "')";
+      t.dataset.img = p.images[i];
+    }
+  });
+
+  // ── Size buttons ──────────────────────────────────────────────
+  const sizeGrid = document.querySelector('.size-grid');
+  if (sizeGrid && p.sizes.length) {
+    sizeGrid.innerHTML = '';
+    p.sizes.forEach((s, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'size-btn' + (i === 0 ? ' active' : '');
+      btn.dataset.size = s.size;
+      btn.dataset.price = s.price;
+      btn.textContent = s.label;
+      sizeGrid.appendChild(btn);
+    });
+    // Init price display
+    document.getElementById('displayPrice').textContent = '$' + p.sizes[0].price.toLocaleString();
+    document.getElementById('selectedSize').textContent = p.sizes[0].size;
+    document.getElementById('specWidth').textContent = p.sizes[0].size;
+  }
+
+  // ── Materials ─────────────────────────────────────────────────
+  const matSelect = document.getElementById('matSelect');
+  if (matSelect && p.materials.length) {
+    matSelect.innerHTML = '';
+    p.materials.forEach((m, i) => {
+      const opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = m + ' — ' + p.materialLabels[m];
+      matSelect.appendChild(opt);
+    });
+    document.getElementById('selectedMat').textContent = p.materialLabels[p.materials[0]];
+    document.getElementById('specMat').textContent = p.materials[0];
+  }
+
+  // ── Swatches ──────────────────────────────────────────────────
+  const swatchWrap = document.querySelector('.swatch-wrap');
+  if (swatchWrap && p.swatches.length) {
+    swatchWrap.innerHTML = '';
+    p.swatches.forEach((s, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'swatch' + (i === 0 ? ' active' : '');
+      btn.dataset.color = s.color;
+      btn.style.background = s.hex;
+      if (s.border) btn.style.border = '1px solid var(--border-m)';
+      btn.title = s.color;
+      swatchWrap.appendChild(btn);
+    });
+    if (p.swatches[0]) document.getElementById('selectedColor').textContent = p.swatches[0].color;
+  } else if (swatchWrap && !p.swatches.length) {
+    swatchWrap.closest('.pdp-option') && (swatchWrap.closest('.pdp-option').style.display = 'none');
+  }
+
+  // ── Specs accordion ───────────────────────────────────────────
+  const specsGrid = document.querySelector('.specs-grid');
+  if (specsGrid && p.specs) {
+    const extraRows = Object.entries(p.specs).map(([k, v]) =>
+      '<div class="spec-row"><span class="spec-label">' + k + '</span><span class="spec-val">' + v + '</span></div>'
+    ).join('');
+    const widthRow = specsGrid.querySelector('.spec-row');
+    if (widthRow) specsGrid.innerHTML = extraRows;
+  }
+
+  // ── Shipping list ─────────────────────────────────────────────
+  const shipList = document.querySelector('#acc-shipping ul');
+  if (shipList && p.shipping) {
+    shipList.innerHTML = p.shipping.map(s => '<li>' + s + '</li>').join('');
+  }
+
+  // ── Care list ─────────────────────────────────────────────────
+  const careList = document.querySelector('#acc-care ul');
+  if (careList && p.care) {
+    careList.innerHTML = p.care.map(s => '<li>' + s + '</li>').join('');
+  }
+
+  // Re-init size button listeners
+  initSizeBtns();
+  initSwatchBtns();
+  initMatSelect();
+}
+
+function initSizeBtns() {
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const pr = btn.dataset.price;
+      const sz = btn.dataset.size;
+      document.getElementById('displayPrice').textContent = '$' + parseInt(pr).toLocaleString();
+      document.getElementById('selectedSize').textContent = sz;
+      document.getElementById('specWidth').textContent = sz;
+    });
+  });
+}
+
+function initSwatchBtns() {
+  document.querySelectorAll('.swatch').forEach(s => {
+    s.addEventListener('click', () => {
+      document.querySelectorAll('.swatch').forEach(x => x.classList.remove('active'));
+      s.classList.add('active');
+      document.getElementById('selectedColor').textContent = s.dataset.color;
+    });
+  });
+}
+
+function initMatSelect() {
+  const matSelect = document.getElementById('matSelect');
+  if (!matSelect) return;
+  matSelect.addEventListener('change', function() {
+    const labels = {
+      'Carrara': 'Italian Carrara Marble', 'Calacatta': 'Calacatta Gold Marble',
+      'Travertine': 'Warm Travertine', 'Nero': 'Nero Marquina',
+      'Emperador': 'Emperador Brown', 'Brass': 'Unlacquered Brass'
+    };
+    document.getElementById('selectedMat').textContent = labels[this.value] || this.value;
+    document.getElementById('specMat').textContent = this.options[this.selectedIndex].text.split('—')[0].trim();
+  });
+}
+
+loadProduct();
+
+/* QTY */
+let qty=1;
+document.getElementById('qtyMinus').addEventListener('click',()=>{if(qty>1){qty--;document.getElementById('qtyNum').value=qty;}});
+document.getElementById('qtyPlus').addEventListener('click',()=>{if(qty<10){qty++;document.getElementById('qtyNum').value=qty;}});
+
+/* WISHLIST */
+const wb=document.getElementById('wishBtn');
+wb.addEventListener('click',()=>{wb.classList.toggle('active');wb.textContent=wb.classList.contains('active')?'♥':'♡';});
+
+/* ACCORDION */
+document.querySelectorAll('.acc-trigger').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.acc;
+    const body=document.getElementById('acc-'+id);
+    const icon=btn.querySelector('.acc-icon');
+    const isOpen=body.classList.contains('open');
+    body.classList.toggle('open',!isOpen);
+    icon.classList.toggle('open',!isOpen);
+    btn.querySelector('.acc-icon').textContent=isOpen?'+':'×';
+  });
+});</script>
+</body>
+</html>
