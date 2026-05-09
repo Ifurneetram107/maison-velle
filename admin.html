@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maison Velle — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --vanilla:#F1EADA;--sand:#CEC1A8;--tobacco:#B59E7D;--mahogany:#584738;
+  --moss:#2C3424;--olive:#768064;--gold:#C9A84C;--gold-light:#E8D5A0;
+  --bg-page:#EDE5D8;--bg-surface:#F4EFE6;--bg-dark:#3A2E24;--bg-darker:#2A2018;
+  --text-h:#2C2018;--text-b:#584738;--text-m:#87766A;--text-f:#A8998E;
+  --border:rgba(88,71,56,0.13);--border-m:rgba(88,71,56,0.22);
+}
+html{font-size:100%}
+body{font-family:'Jost',sans-serif;background:var(--bg-page);color:var(--text-b);font-weight:300;min-height:100vh}
+
+/* ── LOGIN ── */
+#loginScreen{position:fixed;inset:0;background:var(--bg-darker);display:flex;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:1.2rem}
+#loginScreen h1{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--vanilla);letter-spacing:.22em;text-transform:uppercase}
+#loginScreen p{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-f)}
+#loginForm{display:flex;flex-direction:column;gap:.7rem;width:260px;margin-top:.5rem}
+#loginPass{background:rgba(241,234,218,.06);border:1px solid rgba(241,234,218,.18);color:var(--vanilla);padding:11px 14px;font-family:'Jost',sans-serif;font-size:13px;outline:none;transition:border-color .2s;text-align:center;letter-spacing:.08em}
+#loginPass::placeholder{color:rgba(241,234,218,.25);letter-spacing:.05em}
+#loginPass:focus{border-color:var(--gold)}
+#loginBtn{background:var(--mahogany);color:var(--vanilla);border:none;padding:12px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:background .2s}
+#loginBtn:hover{background:var(--moss)}
+#loginErr{color:#f4a0a0;font-size:11px;text-align:center;display:none;letter-spacing:.05em}
+
+/* ── LAYOUT ── */
+#app{display:none;min-height:100vh}
+header{background:var(--bg-dark);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(241,234,218,.07)}
+.hd-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--vanilla);letter-spacing:.2em;text-transform:uppercase}
+.hd-logo span{color:var(--gold);font-size:.75em;letter-spacing:.28em;display:block;margin-top:1px}
+.hd-right{display:flex;align-items:center;gap:1.5rem}
+#hdrTime{font-size:11px;color:var(--text-f);letter-spacing:.1em}
+#logoutBtn{background:none;border:1px solid rgba(241,234,218,.15);color:var(--text-f);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;cursor:pointer;transition:all .2s}
+#logoutBtn:hover{border-color:var(--vanilla);color:var(--vanilla)}
+
+/* ── TABS ── */
+.tabs{display:flex;background:var(--bg-dark);border-bottom:1px solid rgba(241,234,218,.07);padding:0 2rem}
+.tab{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-f);padding:.9rem 1.2rem;cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;transition:all .2s}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab:hover{color:var(--sand)}
+
+/* ── PANELS ── */
+.panel{display:none;padding:2rem}
+.panel.active{display:block}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.stat{background:var(--bg-surface);border:1px solid var(--border);padding:1.4rem 1.6rem}
+.stat p{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-f);margin-bottom:.4rem}
+.stat h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:400;color:var(--text-h);line-height:1}
+.stat small{font-size:10px;color:var(--text-m)}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;gap:.7rem;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap}
+.toolbar select,.toolbar input[type=text]{background:var(--bg-surface);border:1px solid var(--border-m);color:var(--text-b);padding:8px 12px;font-family:'Jost',sans-serif;font-size:12px;outline:none;min-width:130px}
+.toolbar select:focus,.toolbar input:focus{border-color:var(--tobacco)}
+.btn-sm{background:var(--mahogany);color:var(--vanilla);border:none;padding:8px 18px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .2s;white-space:nowrap}
+.btn-sm:hover{background:var(--moss)}
+.btn-sm.ghost{background:transparent;border:1px solid var(--border-m);color:var(--text-m)}
+.btn-sm.ghost:hover{border-color:var(--mahogany);color:var(--mahogany);background:transparent}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;background:var(--bg-surface);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead{background:var(--bg-dark)}
+th{color:var(--sand);font-size:9px;letter-spacing:.2em;text-transform:uppercase;font-weight:400;padding:.85rem 1rem;text-align:left;white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
+tbody tr:hover{background:rgba(88,71,56,.04)}
+td{padding:.8rem 1rem;color:var(--text-b);vertical-align:middle}
+td:first-child{font-weight:400;color:var(--text-h)}
+.tbl-empty{text-align:center;padding:3rem;color:var(--text-f);font-size:11px;letter-spacing:.15em;text-transform:uppercase}
+
+/* ── STATUS BADGE ── */
+.s-badge{display:inline-block;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:3px 10px;font-weight:400}
+.s-badge.new{background:rgba(201,168,76,.14);color:#8a6a1a}
+.s-badge.contacted{background:rgba(118,128,100,.15);color:var(--olive)}
+.s-badge.qualified{background:rgba(44,52,36,.12);color:var(--moss)}
+.s-badge.closed{background:rgba(88,71,56,.1);color:var(--text-m)}
+
+/* ── STATUS SELECT ── */
+.s-sel{background:var(--bg-page);border:1px solid var(--border);color:var(--text-b);font-family:'Jost',sans-serif;font-size:11px;padding:4px 8px;outline:none;cursor:pointer}
+
+/* ── PRODUCT TOGGLE ── */
+.tog{width:36px;height:20px;background:var(--border-m);border:none;cursor:pointer;position:relative;border-radius:10px;transition:background .2s}
+.tog.on{background:var(--olive)}
+.tog::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .2s}
+.tog.on::after{left:19px}
+.prod-thumb{width:44px;height:44px;object-fit:cover;display:block}
+
+/* ── ADD PRODUCT FORM ── */
+.add-form{background:var(--bg-surface);border:1px solid var(--border);padding:2rem;margin-bottom:1.5rem;display:none}
+.add-form.open{display:block}
+.add-form h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--text-h);margin-bottom:1.5rem;letter-spacing:.06em}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.fg .full{grid-column:1/-1}
+.fg label{display:block;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-f);margin-bottom:.35rem}
+.fg input,.fg select,.fg textarea{width:100%;background:var(--bg-page);border:1px solid var(--border-m);color:var(--text-h);padding:9px 12px;font-family:'Jost',sans-serif;font-size:12px;outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--tobacco)}
+.fg textarea{resize:vertical;min-height:72px}
+.form-actions{display:flex;gap:.7rem;margin-top:1.2rem}
+#saveMsg{margin-top:.7rem;font-size:12px;color:var(--olive);display:none}
+
+@media(max-width:900px){.stats{grid-template-columns:1fr 1fr}.fg{grid-template-columns:1fr}.fg .full{grid-column:1}}
+@media(max-width:600px){.panel{padding:1rem}.stats{grid-template-columns:1fr 1fr;gap:.6rem}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <h1>Maison Velle</h1>
+  <p>Admin Dashboard</p>
+  <div id="loginForm">
+    <input type="password" id="loginPass" placeholder="Enter password">
+    <button id="loginBtn">Enter</button>
+    <p id="loginErr">Incorrect password. Try again.</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header>
+    <div class="hd-logo">Maison Velle <span>Admin</span></div>
+    <div class="hd-right">
+      <span id="hdrTime"></span>
+      <button id="logoutBtn">Log Out</button>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="leads">Leads</button>
+    <button class="tab" data-tab="products">Products</button>
+  </div>
+
+  <!-- LEADS -->
+  <div class="panel active" id="tab-leads">
+    <div class="stats">
+      <div class="stat"><p>Total Leads</p><h2 id="sTotal">—</h2><small>All time</small></div>
+      <div class="stat"><p>New</p><h2 id="sNew">—</h2><small>Awaiting contact</small></div>
+      <div class="stat"><p>Contacted</p><h2 id="sContacted">—</h2><small>In progress</small></div>
+      <div class="stat"><p>Qualified</p><h2 id="sQualified">—</h2><small>Hot leads</small></div>
+    </div>
+
+    <div class="toolbar">
+      <select id="fStatus">
+        <option value="">All Statuses</option>
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="qualified">Qualified</option>
+        <option value="closed">Closed</option>
+      </select>
+      <select id="fInterest">
+        <option value="">All Interests</option>
+        <option>Bathroom Vanity</option>
+        <option>Stone Basin</option>
+        <option>Accessory</option>
+        <option>Mirror</option>
+        <option>Full Bathroom Design Consultation</option>
+        <option>Trade / B2B Inquiry</option>
+      </select>
+      <input type="text" id="fSearch" placeholder="Search name or email…" style="min-width:200px">
+      <button class="btn-sm ghost" id="btnRefreshLeads">Refresh</button>
+      <button class="btn-sm" id="btnExport">Export CSV</button>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Name</th><th>Email</th><th>Phone</th><th>Interest</th>
+          <th>Budget</th><th>Message</th><th>Date</th><th>Status</th><th>Update</th>
+        </tr></thead>
+        <tbody id="leadsBody"><tr><td colspan="9" class="tbl-empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="panel" id="tab-products">
+    <div class="toolbar">
+      <button class="btn-sm" id="btnToggleAdd">+ Add Product</button>
+      <select id="fCat">
+        <option value="">All Categories</option>
+        <option>Bathroom Vanity</option>
+        <option>Stone Basin</option>
+        <option>Accessory</option>
+        <option>Mirror</option>
+        <option>Countertop</option>
+      </select>
+      <button class="btn-sm ghost" id="btnRefreshProducts">Refresh</button>
+    </div>
+
+    <div class="add-form" id="addForm">
+      <h3>Add New Product</h3>
+      <div class="fg">
+        <div><label>Name *</label><input id="pName" placeholder="Carrara Floating Vanity"></div>
+        <div><label>Slug * (auto-filled)</label><input id="pSlug" placeholder="carrara-floating-vanity"></div>
+        <div><label>Category *</label>
+          <select id="pCat">
+            <option value="">Select…</option>
+            <option>Bathroom Vanity</option><option>Stone Basin</option>
+            <option>Accessory</option><option>Mirror</option><option>Countertop</option>
+          </select>
+        </div>
+        <div><label>Collection</label>
+          <select id="pCollection">
+            <option value="">Select…</option>
+            <option>Carrara</option><option>Calacatta</option>
+            <option>Travertine</option><option>Nero Marquina</option>
+          </select>
+        </div>
+        <div><label>Room</label>
+          <select id="pRoom">
+            <option value="">Select…</option>
+            <option>Master Bathroom</option><option>Guest Bathroom</option>
+            <option>Powder Room</option><option>Kitchen</option>
+          </select>
+        </div>
+        <div><label>Price From ($) *</label><input type="number" id="pPrice" placeholder="2850"></div>
+        <div><label>Price Label</label><input id="pPriceLabel" placeholder="From $2,850"></div>
+        <div><label>Badge</label>
+          <select id="pBadge">
+            <option value="">None</option>
+            <option>Best Seller</option><option>New</option><option>Sale</option>
+          </select>
+        </div>
+        <div class="full"><label>Image URL</label><input id="pImage" placeholder="https://…"></div>
+        <div class="full"><label>Description</label><textarea id="pDesc" placeholder="Hand-selected Italian marble…"></textarea></div>
+        <div><label>Best Seller?</label>
+          <select id="pBest"><option value="false">No</option><option value="true">Yes</option></select>
+        </div>
+        <div><label>New In?</label>
+          <select id="pNew"><option value="false">No</option><option value="true">Yes</option></select>
+        </div>
+        <div><label>Sort Order</label><input type="number" id="pSort" placeholder="10"></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-sm" id="btnSave">Save Product</button>
+        <button class="btn-sm ghost" id="btnCancelAdd">Cancel</button>
+      </div>
+      <p id="saveMsg"></p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Image</th><th>Name</th><th>Category</th><th>Collection</th>
+          <th>Price</th><th>Badge</th><th>Best Seller</th><th>New In</th><th>Active</th><th>Delete</th>
+        </tr></thead>
+        <tbody id="productsBody"><tr><td colspan="10" class="tbl-empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── CONFIG — paste your credentials here ── */
+const SB_URL = 'https://tvaiqwwzneazdjlvyvik.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2YWlxd3d6bmVhemRqbHZ5dmlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNzM1NzQsImV4cCI6MjA5Mzg0OTU3NH0.AyVgP7_BHt3mip4dyRCDx34ha0asOu5wuyLrHPYPLWk';  // anon key is fine since RLS allows public read leads
+const ADMIN_PW = '123456';    // ← change this!
+
+/* ── INIT ── */
+const sb = window.supabase.createClient(SB_URL, SB_KEY);
+let leads = [], products = [];
+
+/* ── LOGIN ── */
+document.getElementById('loginBtn').onclick = tryLogin;
+document.getElementById('loginPass').onkeydown = e => { if (e.key === 'Enter') tryLogin(); };
+
+function tryLogin() {
+  if (document.getElementById('loginPass').value === ADMIN_PW) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    loadLeads(); loadProducts();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('loginPass').value = '';
+  }
+}
+
+document.getElementById('logoutBtn').onclick = () => {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('loginPass').value = '';
+};
+
+/* ── TABS ── */
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  };
+});
+
+/* ── CLOCK ── */
+const tick = () => document.getElementById('hdrTime').textContent =
+  new Date().toLocaleString('en-US', { weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+tick(); setInterval(tick, 60000);
+
+/* ════════════════════════════════════
+   LEADS
+════════════════════════════════════ */
+async function loadLeads() {
+  document.getElementById('leadsBody').innerHTML = `<tr><td colspan="9" class="tbl-empty">Loading…</td></tr>`;
+  const { data, error } = await sb.from('leads').select('*').order('created_at', { ascending: false });
+  if (error) { document.getElementById('leadsBody').innerHTML = `<tr><td colspan="9" class="tbl-empty" style="color:#c44">Error: ${error.message}</td></tr>`; return; }
+  leads = data || [];
+  updateStats();
+  renderLeads(leads);
+}
+
+function updateStats() {
+  document.getElementById('sTotal').textContent     = leads.length;
+  document.getElementById('sNew').textContent       = leads.filter(l => l.status === 'new').length;
+  document.getElementById('sContacted').textContent = leads.filter(l => l.status === 'contacted').length;
+  document.getElementById('sQualified').textContent = leads.filter(l => l.status === 'qualified').length;
+}
+
+function fmtDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
+
+function renderLeads(arr) {
+  const body = document.getElementById('leadsBody');
+  if (!arr.length) { body.innerHTML = `<tr><td colspan="9" class="tbl-empty">No leads found.</td></tr>`; return; }
+  body.innerHTML = arr.map(l => `
+    <tr id="lr-${l.id}">
+      <td><strong>${l.first_name || ''} ${l.last_name || ''}</strong></td>
+      <td><a href="mailto:${l.email}" style="color:var(--mahogany);text-decoration:none">${l.email || '—'}</a></td>
+      <td style="font-size:11px">${l.phone || '—'}</td>
+      <td style="font-size:11px">${l.interest || '—'}</td>
+      <td style="font-size:11px;white-space:nowrap">${l.budget || '—'}</td>
+      <td><div style="font-size:11px;color:var(--text-m);max-width:200px;line-height:1.5">${(l.message || '—').substring(0,90)}${(l.message||'').length>90?'…':''}</div></td>
+      <td style="font-size:11px;color:var(--text-f);white-space:nowrap">${fmtDate(l.created_at)}</td>
+      <td><span class="s-badge ${l.status}">${l.status}</span></td>
+      <td>
+        <select class="s-sel" onchange="updateStatus('${l.id}',this.value)">
+          <option value="new"       ${l.status==='new'       ?'selected':''}>New</option>
+          <option value="contacted" ${l.status==='contacted' ?'selected':''}>Contacted</option>
+          <option value="qualified" ${l.status==='qualified' ?'selected':''}>Qualified</option>
+          <option value="closed"    ${l.status==='closed'    ?'selected':''}>Closed</option>
+        </select>
+      </td>
+    </tr>`).join('');
+}
+
+async function updateStatus(id, status) {
+  await sb.from('leads').update({ status }).eq('id', id);
+  const l = leads.find(x => x.id === id);
+  if (l) { l.status = status; }
+  const badge = document.querySelector(`#lr-${id} .s-badge`);
+  if (badge) { badge.className = `s-badge ${status}`; badge.textContent = status; }
+  updateStats();
+}
+
+['fStatus','fInterest','fSearch'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    const st  = document.getElementById('fStatus').value;
+    const int = document.getElementById('fInterest').value;
+    const q   = document.getElementById('fSearch').value.toLowerCase();
+    renderLeads(leads.filter(l => {
+      if (st  && l.status   !== st)  return false;
+      if (int && l.interest !== int) return false;
+      if (q) {
+        const name = `${l.first_name||''} ${l.last_name||''}`.toLowerCase();
+        if (!name.includes(q) && !(l.email||'').toLowerCase().includes(q)) return false;
+      }
+      return true;
+    }));
+  });
+});
+
+document.getElementById('btnRefreshLeads').onclick = loadLeads;
+
+document.getElementById('btnExport').onclick = () => {
+  const headers = ['First Name','Last Name','Email','Phone','Interest','Budget','Message','Date','Status'];
+  const rows = leads.map(l => [
+    l.first_name, l.last_name, l.email, l.phone, l.interest, l.budget,
+    (l.message||'').replace(/"/g,'""'), fmtDate(l.created_at), l.status
+  ].map(v => `"${v||''}"`).join(','));
+  const blob = new Blob([[headers.join(','),...rows].join('\n')], { type:'text/csv' });
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `mv-leads-${new Date().toISOString().split('T')[0]}.csv` });
+  a.click();
+};
+
+/* ════════════════════════════════════
+   PRODUCTS
+════════════════════════════════════ */
+async function loadProducts() {
+  document.getElementById('productsBody').innerHTML = `<tr><td colspan="10" class="tbl-empty">Loading…</td></tr>`;
+  const { data, error } = await sb.from('products').select('*').order('sort_order', { ascending: true });
+  if (error) { document.getElementById('productsBody').innerHTML = `<tr><td colspan="10" class="tbl-empty" style="color:#c44">Error: ${error.message}</td></tr>`; return; }
+  products = data || [];
+  renderProducts(products);
+}
+
+function renderProducts(arr) {
+  const body = document.getElementById('productsBody');
+  if (!arr.length) { body.innerHTML = `<tr><td colspan="10" class="tbl-empty">No products found.</td></tr>`; return; }
+  body.innerHTML = arr.map(p => `
+    <tr id="pr-${p.id}">
+      <td>${p.image_url ? `<img class="prod-thumb" src="${p.image_url}" alt="">` : '—'}</td>
+      <td><strong style="display:block">${p.name}</strong><span style="font-size:10px;color:var(--text-f)">${p.slug}</span></td>
+      <td style="font-size:11px">${p.category}</td>
+      <td style="font-size:11px">${p.collection||'—'}</td>
+      <td style="font-size:11px;white-space:nowrap">${p.price_label||'$'+Number(p.price_from).toLocaleString()}</td>
+      <td style="font-size:11px">${p.badge||'—'}</td>
+      <td><button class="tog ${p.is_bestseller?'on':''}" onclick="togField('${p.id}','is_bestseller',${p.is_bestseller})"></button></td>
+      <td><button class="tog ${p.is_new_in?'on':''}" onclick="togField('${p.id}','is_new_in',${p.is_new_in})"></button></td>
+      <td><button class="tog ${p.is_active?'on':''}" onclick="togField('${p.id}','is_active',${p.is_active})"></button></td>
+      <td><button class="btn-sm ghost" style="font-size:9px;padding:4px 10px" onclick="delProduct('${p.id}','${p.name.replace(/'/g,"\\'")}')">Delete</button></td>
+    </tr>`).join('');
+}
+
+async function togField(id, field, cur) {
+  const val = !cur;
+  await sb.from('products').update({ [field]: val }).eq('id', id);
+  const p = products.find(x => x.id === id);
+  if (p) p[field] = val;
+  const btn = document.querySelector(`#pr-${id} button[onclick*="${field}"]`);
+  if (btn) { btn.classList.toggle('on', val); btn.setAttribute('onclick', `togField('${id}','${field}',${val})`); }
+}
+
+async function delProduct(id, name) {
+  if (!confirm(`Delete "${name}"?`)) return;
+  await sb.from('products').delete().eq('id', id);
+  products = products.filter(p => p.id !== id);
+  renderProducts(products);
+}
+
+document.getElementById('fCat').onchange = function() {
+  renderProducts(this.value ? products.filter(p => p.category === this.value) : products);
+};
+
+document.getElementById('btnRefreshProducts').onclick = loadProducts;
+
+/* Add product form */
+document.getElementById('btnToggleAdd').onclick = () => document.getElementById('addForm').classList.toggle('open');
+document.getElementById('btnCancelAdd').onclick = () => document.getElementById('addForm').classList.remove('open');
+
+document.getElementById('pName').oninput = function() {
+  document.getElementById('pSlug').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+};
+
+document.getElementById('btnSave').onclick = async () => {
+  const name  = document.getElementById('pName').value.trim();
+  const slug  = document.getElementById('pSlug').value.trim();
+  const cat   = document.getElementById('pCat').value;
+  const price = parseFloat(document.getElementById('pPrice').value);
+  if (!name||!slug||!cat||!price) { alert('Fill in Name, Slug, Category, and Price From.'); return; }
+
+  const btn = document.getElementById('btnSave');
+  btn.textContent = 'Saving…'; btn.disabled = true;
+
+  const { error } = await sb.from('products').insert([{
+    name, slug, category: cat,
+    collection:   document.getElementById('pCollection').value || null,
+    room:         document.getElementById('pRoom').value || null,
+    price_from:   price,
+    price_label:  document.getElementById('pPriceLabel').value.trim() || null,
+    badge:        document.getElementById('pBadge').value || null,
+    image_url:    document.getElementById('pImage').value.trim() || null,
+    description:  document.getElementById('pDesc').value.trim() || null,
+    is_bestseller: document.getElementById('pBest').value === 'true',
+    is_new_in:    document.getElementById('pNew').value === 'true',
+    sort_order:   parseInt(document.getElementById('pSort').value) || 99,
+    is_active: true,
+  }]);
+
+  btn.textContent = 'Save Product'; btn.disabled = false;
+
+  if (!error) {
+    const msg = document.getElementById('saveMsg');
+    msg.textContent = `"${name}" saved successfully.`;
+    msg.style.display = 'block';
+    document.getElementById('addForm').querySelectorAll('input,select,textarea').forEach(el => el.value = '');
+    setTimeout(() => msg.style.display = 'none', 4000);
+    loadProducts();
+  } else {
+    alert('Error: ' + error.message);
+  }
+};
+</script>
+</body>
+</html>
